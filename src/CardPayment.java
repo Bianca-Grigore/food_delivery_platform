@@ -5,21 +5,19 @@ import java.util.UUID;
 
 import static java.util.UUID.randomUUID;
 
-public class CardPayment implements Payment {
+public class CardPayment extends BasePayment implements Payment {
 
-    private PaymentStatus status;
     private String holderName;
     private String expirationDate;
     private String CVV;
     private String cardNumber;
-    private String transactionId = null;
 
     public CardPayment(String holder, String exp, String ccv, String number){
+        super();
         this.holderName = holder;
         this.expirationDate = exp;
         this.CVV = ccv;
         this.cardNumber = number;
-        this.status = PaymentStatus.PENDING;
     }
 
     private boolean validateDetails(){
@@ -57,6 +55,7 @@ public class CardPayment implements Payment {
     public boolean processPayment(double amount) {
         try{
             validateDetails();
+            this.amount = amount;
             this.status = PaymentStatus.COMPLETED;
             this.transactionId = randomUUID().toString().substring(0, 8).toUpperCase();
 
@@ -67,11 +66,6 @@ public class CardPayment implements Payment {
             System.out.println("Payment failed: " + e.getMessage());
             return false;
         }
-    }
-
-    @Override
-    public boolean refund(double amount) {
-        return false;
     }
 
     @Override

@@ -3,4 +3,5 @@ public interface Payment {
     boolean refund(double amount);
     PaymentStatus getStatus();
     String getTransactionID();
+    double getAmount();
 }
