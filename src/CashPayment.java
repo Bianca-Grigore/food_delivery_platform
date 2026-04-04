@@ -1,2 +1,2 @@
-public class CashPayment extends Payment{
+public class CashPayment implements Payment{
 }
