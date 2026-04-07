@@ -1,3 +1,5 @@
+package com.pao.proiect.tema.model;
+
 public abstract class User {
     protected int id;
     protected String name;
@@ -24,7 +26,7 @@ public abstract class User {
     @Override
     public String toString()
     {
-        return "User " + id + ", name:  " + name + ", email: " + email + ", phone number: " + phoneNum;
+        return "com.pao.proiect.tema.model.User " + id + ", name:  " + name + ", email: " + email + ", phone number: " + phoneNum;
     }
 
     @Override

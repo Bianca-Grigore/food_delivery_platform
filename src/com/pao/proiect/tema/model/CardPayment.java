@@ -1,23 +1,29 @@
+package com.pao.proiect.tema.model;
+
+import com.pao.proiect.tema.exception.InvalidDetailsException;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.UUID;
 
-import static java.util.UUID.randomUUID;
 
-public class CardPayment extends BasePayment implements Payment {
+public class CardPayment extends BasePayment{
 
-    private String holderName;
-    private String expirationDate;
-    private String CVV;
-    private String cardNumber;
+    private final String holderName;
+    private final String expirationDate;
+    private final String CVV;
+    private final String cardNumber;
 
-    public CardPayment(String holder, String exp, String ccv, String number){
-        super();
+    public CardPayment(double amount, String holder, String exp, String ccv, String number){
+        super(amount);
         this.holderName = holder;
         this.expirationDate = exp;
         this.CVV = ccv;
         this.cardNumber = number;
+    }
+
+    @Override
+    protected String getPrefix(){
+        return "CARD";
     }
 
     private boolean validateDetails(){
@@ -47,34 +53,25 @@ public class CardPayment extends BasePayment implements Payment {
         if(CVV == null || !CVV.matches("\\d{3}")){
             throw new InvalidDetailsException("CVV must have 3 digits.");
         }
-
         return true;
     }
 
     @Override
-    public boolean processPayment(double amount) {
+    public boolean processPayment(double amountProcess) {
         try{
             validateDetails();
-            this.amount = amount;
-            this.status = PaymentStatus.COMPLETED;
-            this.transactionId = randomUUID().toString().substring(0, 8).toUpperCase();
+            if(amountProcess < getTotalAmount()){
+                throw new InvalidDetailsException("Insufficient amount provided for this transaction.");
+            }
 
-            System.out.println("Payment of $" + amount + " processed successfully. Transaction ID: " + transactionId);
+            this.status = PaymentStatus.COMPLETED;
+            System.out.println("Payment of $" + amountProcess + " processed successfully. Transaction ID: " + getTransactionID());
             return true;
+
         }catch (InvalidDetailsException e){
             this.status = PaymentStatus.FAILED;
             System.out.println("Payment failed: " + e.getMessage());
             return false;
         }
-    }
-
-    @Override
-    public PaymentStatus getStatus() {
-        return this.status;
-    }
-
-    @Override
-    public String getTransactionID() {
-        return this.transactionId;
     }
 }

@@ -1,4 +1,4 @@
-import java.util.Objects;
+package com.pao.proiect.tema.model;
 
 public abstract class MenuItem implements Comparable<MenuItem> {
     protected String name;
@@ -33,7 +33,7 @@ public abstract class MenuItem implements Comparable<MenuItem> {
 
     @Override
     public String toString(){
-        return "MenuItem " + id + ", name: " + name + ", calories: " + calories + ", price: " + price + ", description: " + description + ", estimated time: " + estimatedTime + " minutes, availability: " + (isAvailable ? "Available" : "Not Available");
+        return "com.pao.proiect.tema.model.MenuItem " + id + ", name: " + name + ", calories: " + calories + ", price: " + price + ", description: " + description + ", estimated time: " + estimatedTime + " minutes, availability: " + (isAvailable ? "Available" : "Not Available");
     }
 
     @Override
