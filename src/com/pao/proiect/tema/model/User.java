@@ -5,28 +5,27 @@ public abstract class User {
     protected String name;
     protected String email;
     protected String phoneNum;
-    private static int id_number =0 ;
+    protected String password;
+    private static int idNumber =0 ;
 
-    public User(String name, String email, String phoneNum) {
-        this.id = id_number;
-        id_number+=1;
+    public User(String name, String email, String phoneNum, String password) {
+        this.id = idNumber;
+        idNumber +=1;
         this.name = name;
         this.email = email;
         this.phoneNum = phoneNum;
+        this.password = password;
     }
-
-    public abstract void dashboard();
 
     public void updateInfo(String newEmail, String newPhoneNum){
         this.email = newEmail;
         this.phoneNum=newPhoneNum;
-        System.out.println("Information updated successfully.");
     }
 
     @Override
     public String toString()
     {
-        return "com.pao.proiect.tema.model.User " + id + ", name:  " + name + ", email: " + email + ", phone number: " + phoneNum;
+        return getClass().getSimpleName() + " " + id + ", name:  " + name + ", email: " + email + ", phone number: " + phoneNum;
     }
 
     @Override
@@ -42,7 +41,9 @@ public abstract class User {
         return Integer.hashCode(id);
     }
 
-        public String getEmail() {
+    public abstract String getRole();
+
+    public String getEmail() {
         return email;
     }
 
