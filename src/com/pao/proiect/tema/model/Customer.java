@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Customer extends User {
-    private String adress;
+    private String address;
     private int points;
-    List<Order> orderHistory;
+    private List<Order> orderHistory;
 
     public Customer(String name, String email, String phoneNum, String password, String adress){
         super(name, email, phoneNum, password);
-        this.adress = adress;
+        this.address = adress;
         this.points = 0;
         this.orderHistory = new ArrayList<>();
     }
@@ -26,8 +26,8 @@ public class Customer extends User {
         }
     }
 
-    public String getAdress() {
-        return adress;
+    public String getAddress() {
+        return address;
     }
 
     public List<Order> getOrderHistory() {
@@ -42,11 +42,7 @@ public class Customer extends User {
         this.points = points;
     }
 
-    public void setOrderHistory(List<Order> orderHistory) {
-        this.orderHistory = orderHistory;
-    }
-
-    public void setAdress(String adress) {
-        this.adress = adress;
+    public void setAddress(String address) {
+        this.address = address;
     }
 }
