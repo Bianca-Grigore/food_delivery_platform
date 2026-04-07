@@ -8,9 +8,9 @@ public class Customer extends User {
     private int points;
     private List<Order> orderHistory;
 
-    public Customer(String name, String email, String phoneNum, String password, String adress){
+    public Customer(String name, String email, String phoneNum, String password, String address){
         super(name, email, phoneNum, password);
-        this.address = adress;
+        this.address = address;
         this.points = 0;
         this.orderHistory = new ArrayList<>();
     }
@@ -24,6 +24,17 @@ public class Customer extends User {
         if(p > 0){
             this.points += p;
         }
+    }
+
+    public void addOrder(Order order){
+        if(order != null){
+            this.orderHistory.add(order);
+        }
+    }
+
+    @Override
+    public String toString(){
+        return super.toString() + " address: " + address + ", loyalty points: " + points;
     }
 
     public String getAddress() {
