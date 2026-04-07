@@ -1,6 +1,6 @@
 package com.pao.proiect.tema.model;
 
-public class DeliveryPerson extends User {
+public final class DeliveryPerson extends User {
     private VehicleType vehicleType;
     private boolean isAvailable;
     private double rating;

@@ -3,7 +3,7 @@ package com.pao.proiect.tema.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Customer extends User {
+public final class Customer extends User {
     private String address;
     private int points;
     private List<Order> orderHistory;

@@ -1,6 +1,6 @@
 package com.pao.proiect.tema.model;
 
-public abstract class User {
+public abstract sealed class User permits Customer, DeliveryPerson, RestaurantAdmin {
     protected int id;
     protected String name;
     protected String email;
