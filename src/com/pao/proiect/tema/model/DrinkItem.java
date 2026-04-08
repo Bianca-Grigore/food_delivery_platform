@@ -1,4 +1,4 @@
 package com.pao.proiect.tema.model;
 
-public class DrinkItem extends MenuItem {
+public non-sealed class DrinkItem extends MenuItem {
 }
