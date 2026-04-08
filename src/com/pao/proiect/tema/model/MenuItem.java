@@ -136,4 +136,16 @@ public abstract sealed class MenuItem implements Comparable<MenuItem> permits Fo
     public void setPrice(double price) {
         this.price = price;
     }
+
+    public boolean isVegan(){
+        return isVegan;
+    }
+
+    public boolean isVegetarian(){
+        return isVegeraian;
+    }
+
+    public Set<Allergen> getAllergens(){
+        return allergens;
+    }
 }
