@@ -23,7 +23,28 @@ public final class RestaurantAdmin extends User {
         return super.toString() + ", restaurant name: " + restaurantName + ", access level: " + accessLevel + ", active: " + isActive;
     }
 
-    public void deactivateAccount(){
+    public void deactivateAccount() {
         this.isActive = false;
+    }
+
+
+    public String getRestaurantName() {
+        return restaurantName;
+    }
+
+    public void setRestaurantName( String name){
+        this.restaurantName = name;
+    }
+
+    public boolean isActive(){
+        return isActive;
+    }
+
+    public AccessLevel getAccessLevel(){
+        return accessLevel;
+    }
+
+    public void setAccessLevel(AccessLevel accessLevel){
+        this.accessLevel = accessLevel;
     }
 }
