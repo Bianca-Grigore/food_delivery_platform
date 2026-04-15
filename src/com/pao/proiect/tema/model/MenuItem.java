@@ -8,41 +8,43 @@ public abstract sealed class MenuItem implements Comparable<MenuItem> permits Fo
     protected double calories;
     protected double price;
     protected int id;
-    private static int id_num=0;
+    private static int idNum =0;
     protected String description;
     protected boolean isAvailable;
     protected int estimatedTime;
     private boolean isVegan;
-    private boolean isVegeraian;
+    private boolean isVegetarian;
     private Set<Allergen> allergens;
 
     public MenuItem(String name, double calories, double price, String description, int estimatedTime, boolean isVegan, boolean isVegetarian) {
         this.name = name;
         this.calories = calories;
         this.price = price;
-        this.id = id_num;
-        id_num+=1;
+        this.id = idNum;
+        idNum +=1;
         this.description = description;
         this.estimatedTime = estimatedTime;
         this.isAvailable = true;
         this.isVegan = isVegan;
-        this.isVegeraian = isVegan || isVegetarian;
+        this.isVegetarian = isVegan || isVegetarian;
         this.allergens = new HashSet<>();
     }
 
-    public void addAlergen(Allergen allergen){
-        if(allergen == null) return;
+    public boolean addAlergen(Allergen allergen){
+        if(allergen == null)
+            return false;
 
         if(this.isVegan && (allergen == Allergen.Lactose || allergen == Allergen.Eggs || allergen == Allergen.Fish || allergen == Allergen.Crustaceans || allergen == Allergen.Molluscs)){
             System.out.println("Warning: Adding a non-vegan allergen to a vegan menu item.");
-            return;
+            return false;
         }
 
-        if(this.isVegeraian && (allergen == Allergen.Fish || allergen == Allergen.Crustaceans || allergen == Allergen.Molluscs)){
+        if(this.isVegetarian && (allergen == Allergen.Fish || allergen == Allergen.Crustaceans || allergen == Allergen.Molluscs)){
             System.out.println("Warning: Adding a non-vegetarian allergen to a vegetarian menu item.");
-            return;
+            return false;
         }
         this.allergens.add(allergen);
+        return true;
     }
 
     public boolean applyDiscount(double p){
@@ -59,7 +61,7 @@ public abstract sealed class MenuItem implements Comparable<MenuItem> permits Fo
         return "MenuItem " + id + ", name: " + name +
                 ", calories: " + calories + ", price: " + price +
                 ", description: " + description + ", estimated time: " +
-                estimatedTime + " minutes, vegan: " + isVegan + ", vegetarian: " + isVegeraian+
+                estimatedTime + " minutes, vegan: " + isVegan + ", vegetarian: " + isVegetarian +
                 ", allergens: " + allergens;
     }
 
@@ -142,7 +144,7 @@ public abstract sealed class MenuItem implements Comparable<MenuItem> permits Fo
     }
 
     public boolean isVegetarian(){
-        return isVegeraian;
+        return isVegetarian;
     }
 
     public Set<Allergen> getAllergens(){

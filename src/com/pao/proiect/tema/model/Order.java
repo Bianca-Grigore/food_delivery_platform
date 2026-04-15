@@ -3,6 +3,7 @@ package com.pao.proiect.tema.model;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 
 public class Order {
@@ -61,7 +62,7 @@ public class Order {
         boolean succes = this.paymentMethod.processPayment(getTotal());
         if(succes){
             this.status = OrderStatus.PREPARING;
-            System.out.println("Payment processed for order " + id + ". Order is now being prepared);");
+            System.out.println("Payment processed for order " + id + ". Order is now being prepared.");
         }
         else {
             this.status = OrderStatus.CANCELLED;
@@ -102,5 +103,22 @@ public class Order {
         else{
             System.out.println("Cannot mark order as delivered with status " + this.status);
         }
+    }
+
+    @Override
+    public String toString(){
+        return "Order number " + id + ", status " + status + ", total " + getTotal();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Order order = (Order) o;
+        return id == order.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
