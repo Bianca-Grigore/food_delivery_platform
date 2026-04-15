@@ -70,4 +70,25 @@ public class MenuService {
     public List<MenuItem> getWithPrice(double price) {
         return menu.stream().filter(item -> item.getPrice() <= price).sorted().toList();
     }
+
+    public List<MenuItem> getAvailableMenu(){
+        return menu.stream().filter(MenuItem::isAvailable).toList();
+    }
+
+    public boolean updatePrice(int id, double newPrice){
+        if(newPrice < 0){
+            throw new IllegalArgumentException("Price cannot be negative");
+        }
+
+        Optional<MenuItem> itemOptional = findById(id);
+        if(itemOptional.isPresent()){
+            itemOptional.get().setPrice(newPrice);
+            System.out.println("Price updated for item: " + itemOptional.get().getName());
+            return true;
+        }
+        else{
+            System.out.println("Menu item not found with id: " + id);
+            return false;
+        }
+    }
 }

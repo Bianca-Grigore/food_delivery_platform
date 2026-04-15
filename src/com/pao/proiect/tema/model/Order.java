@@ -121,4 +121,16 @@ public class Order {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public OrderStatus getStatus() {
+        return status;
+    }
 }
