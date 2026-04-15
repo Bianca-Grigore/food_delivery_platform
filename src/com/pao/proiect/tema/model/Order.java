@@ -1,5 +1,7 @@
 package com.pao.proiect.tema.model;
 
+import com.pao.proiect.tema.exception.InvalidOrderStatusException;
+
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -56,8 +58,7 @@ public class Order {
 
     public boolean processOrderPayment(){
         if(this.status != OrderStatus.PLACED){
-            System.out.println("Cannot process payment for order with status " + this.status);
-            return false;
+            throw new InvalidOrderStatusException("Cannot process payment for order with status " + this.status);
         }
         boolean succes = this.paymentMethod.processPayment(getTotal());
         if(succes){
@@ -77,14 +78,13 @@ public class Order {
             System.out.println("Driver " + driver.getName() + " assigned to order " + id);
         }
         else{
-            System.out.println("Cannot assign driver to order with status " + this.status);
+            throw new InvalidOrderStatusException("Cannot assign driver to order with status " + this.status);
         }
     }
 
     public boolean cancelOrder(){
         if(this.status == OrderStatus.READY_FOR_PICKUP || this.status == OrderStatus.DELIVERED){
-            System.out.println("Cannot cancel order with status " + this.status);
-            return false;
+            throw new InvalidOrderStatusException("Cannot cancel order with status " + this.status);
         }
         this.status = OrderStatus.CANCELLED;
         if(this.paymentMethod.getStatus() == PaymentStatus.COMPLETED){
@@ -101,7 +101,7 @@ public class Order {
             System.out.println("Order " + id + " was succesfuly delivered.");
         }
         else{
-            System.out.println("Cannot mark order as delivered with status " + this.status);
+            throw new InvalidOrderStatusException("Cannot mark order as delivered with status " + this.status);
         }
     }
 
