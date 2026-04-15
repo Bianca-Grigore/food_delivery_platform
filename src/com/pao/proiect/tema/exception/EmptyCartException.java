@@ -1,0 +1,7 @@
+package com.pao.proiect.tema.exception;
+
+public class EmptyCartException extends Exception {
+    public EmptyCartException(String message) {
+        super(message);
+    }
+}
