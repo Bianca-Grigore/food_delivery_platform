@@ -1,5 +1,7 @@
 package com.pao.proiect.tema.model;
 
+import com.pao.proiect.tema.exception.InvalidAllergenException;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -35,13 +37,11 @@ public abstract sealed class MenuItem implements Comparable<MenuItem> permits Fo
             return false;
 
         if(this.isVegan && (allergen == Allergen.Lactose || allergen == Allergen.Eggs || allergen == Allergen.Fish || allergen == Allergen.Crustaceans || allergen == Allergen.Molluscs)){
-            System.out.println("Warning: Adding a non-vegan allergen to a vegan menu item.");
-            return false;
+            throw new InvalidAllergenException("Adding a non-vegan allergen to a vegan menu item.");
         }
 
         if(this.isVegetarian && (allergen == Allergen.Fish || allergen == Allergen.Crustaceans || allergen == Allergen.Molluscs)){
-            System.out.println("Warning: Adding a non-vegetarian allergen to a vegetarian menu item.");
-            return false;
+            throw new InvalidAllergenException("Adding a non-vegetarian allergen to a vegetarian menu item.");
         }
         this.allergens.add(allergen);
         return true;
