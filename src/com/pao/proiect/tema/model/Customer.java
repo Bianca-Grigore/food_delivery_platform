@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class Customer extends User {
-    private String address;
+    private Address address;
     private int points;
     private List<Order> orderHistory;
 
-    public Customer(String name, String email, String phoneNum, String password, String address){
+    public Customer(String name, String email, String phoneNum, String password, Address address) {
         super(name, email, phoneNum, password);
         this.address = address;
         this.points = 0;
@@ -37,7 +37,7 @@ public final class Customer extends User {
         return super.toString() + " address: " + address + ", loyalty points: " + points;
     }
 
-    public String getAddress() {
+    public Address getAddress() {
         return address;
     }
 
@@ -53,7 +53,4 @@ public final class Customer extends User {
         this.points = points;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
 }
