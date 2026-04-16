@@ -8,17 +8,14 @@ import java.time.format.DateTimeParseException;
 
 public class CardPayment extends BasePayment{
 
-    private final String holderName;
-    private final String expirationDate;
-    private final String CVV;
-    private final String cardNumber;
+    private final CustomerCard card;
 
-    public CardPayment(double amount, String holder, String exp, String ccv, String number){
+    public CardPayment(double amount, CustomerCard card) {
         super(amount);
-        this.holderName = holder;
-        this.expirationDate = exp;
-        this.CVV = ccv;
-        this.cardNumber = number;
+        if(card == null){
+            throw new IllegalArgumentException("Card details cannot be null.");
+        }
+        this.card = card;
     }
 
     @Override
@@ -27,17 +24,17 @@ public class CardPayment extends BasePayment{
     }
 
     private boolean validateDetails(){
-        if(holderName == null || holderName.trim().isEmpty()){
+        if(card.holderName() == null || card.holderName().trim().isEmpty()){
             throw new InvalidDetailsException("Card holder name cannot be empty.");
         }
 
-        if(expirationDate == null || expirationDate.trim().isEmpty() || !expirationDate.matches("(0[1-9]|1[0-2])/\\d{2}")){
+        if(card.expirationDate() == null || card.expirationDate().trim().isEmpty() || !card.expirationDate().matches("(0[1-9]|1[0-2])/\\d{2}")){
             throw new InvalidDetailsException("Invalid expiration date format. Use MM/YY.");
         }
 
         try{
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/yy");
-            YearMonth expiryDate = YearMonth.parse(expirationDate, formatter);
+            YearMonth expiryDate = YearMonth.parse(card.expirationDate(), formatter);
             YearMonth currentDate = YearMonth.now();
             if(expiryDate.isBefore(currentDate)){
                 throw new InvalidDetailsException("Card has expired.");
@@ -46,11 +43,11 @@ public class CardPayment extends BasePayment{
             throw new InvalidDetailsException("Error processing expiration date.");
         }
 
-        if(cardNumber == null || cardNumber.trim().isEmpty() || !cardNumber.matches("\\d{16}")){
+        if(card.cardNumber() == null || card.cardNumber().trim().isEmpty() || !card.cardNumber().matches("\\d{16}")){
             throw new InvalidDetailsException("Card number must have 16 digits.");
         }
 
-        if(CVV == null || !CVV.matches("\\d{3}")){
+        if(card.CVV() == null || !card.CVV().matches("\\d{3}")){
             throw new InvalidDetailsException("CVV must have 3 digits.");
         }
         return true;
