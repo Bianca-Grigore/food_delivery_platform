@@ -91,4 +91,12 @@ public class MenuService {
             return false;
         }
     }
+
+    public Set<MenuItem> getSortedMenuAfterPrice(){
+        Set<MenuItem> sorted = new TreeSet<>(Comparator.comparingDouble(MenuItem::getPrice));
+        sorted.addAll(menu);
+        return sorted;
+    }
+
+
 }

@@ -3,10 +3,8 @@ package com.pao.proiect.tema.service;
 import com.pao.proiect.tema.exception.EmptyCartException;
 import com.pao.proiect.tema.model.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class OrderService {
     private final List<Order> orders;
@@ -63,5 +61,9 @@ public class OrderService {
 
     public double calculateTotal(){
         return orders.stream().filter(o -> o.getStatus() == OrderStatus.DELIVERED).mapToDouble(Order::getTotal).sum();
+    }
+
+    public Map<Customer, List<Order>> getOrdersGroupedByCustomer(){
+        return orders.stream().collect(Collectors.groupingBy(Order::getCustomer));
     }
 }

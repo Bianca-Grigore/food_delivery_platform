@@ -6,10 +6,8 @@ import com.pao.proiect.tema.model.DeliveryPerson;
 import com.pao.proiect.tema.model.RestaurantAdmin;
 import com.pao.proiect.tema.model.User;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class UserService {
     private List<User> users;
@@ -65,5 +63,9 @@ public class UserService {
 
     public Optional<RestaurantAdmin> getRestaurantAdminByResName(String name){
         return getAllRestaurantAdmin().stream().filter(r -> r.getRestaurantName().equalsIgnoreCase(name)).findFirst();
+    }
+
+    public Map<String, User> getUserIdexByEmail(){
+        return users.stream().collect(Collectors.toMap(User::getEmail, user -> user));
     }
 }
