@@ -30,8 +30,7 @@ Sushi Master; Ceai Verde; 5.0; 12.0; Ceai matcha japonez; 3; true; true; false; 
 Shaorma La Băieți; Ayran; 80.0; 7.0; Iaurt sărat tradițional; 1; false; true; false; 300; false; 0.0; Lactose
 
 [DRIVER]
-# Nume; Vehicul; Disponibil (true/false)
-Alexandru M.; Bicicleta; true
-Mihai T.; Scuter; true
-Andreea V.; Masina; true
-Cristian P.; Scuter; false
+# Nume; Email; Telefon; Parola; TipVehicul; Disponibil
+Andrei Livratoru; andrei.l@delivery.ro; 0733111222; livrezRapid1; CAR; true
+Elena Ionescu; elena.i@delivery.ro; 0744555666; bicicletaMea99; BICYCLE; true
+Stefan Iancu; stefan.i@delivery.ro; 0722888999; scuterViteza; SCOOTER; false

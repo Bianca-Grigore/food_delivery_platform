@@ -30,7 +30,7 @@ Lista cu cel putin 10 actiuni posibile:
  */
 
 
-import com.pao.proiect.tema.service.MenuService;
+import com.pao.proiect.tema.service.RestaurantService;
 import com.pao.proiect.tema.service.OrderService;
 import com.pao.proiect.tema.service.UserService;
 
@@ -45,6 +45,7 @@ import java.util.Scanner;
 public class Main{
     private static final UserService user = UserService.getInstance();
     private static final OrderService order = OrderService.getInstance();
+    private static final RestaurantService restaurant = RestaurantService.getInstance();
 
     public static void main(String[] args) throws IOException {
 

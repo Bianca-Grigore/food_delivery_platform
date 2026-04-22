@@ -48,4 +48,8 @@ public class Restaurant {
     public String getName() {
         return name;
     }
+
+    public void setOpen(boolean aTrue) {
+        this.isOpen = aTrue;
+    }
 }
