@@ -1,0 +1,37 @@
+[CUSTOMER]
+# Nume; Email; Telefon; Parola; Oras; Strada; Numar; CodPostal; Detalii
+Ion Popescu; ion@mail.com; 0744123456; parola123; Bucuresti; Lalelelor; 12; 010111; Ap. 4, Interfon 04
+Maria Ionescu; maria@mail.com; 0722987654; mar1aPass; Cluj-Napoca; Castanilor; 3A; 400123; Casa cu poarta verde
+Alexandru Vasile; alex@mail.com; 0755112233; secret99; Timisoara; Aviatorilor; 8; 300456; Fara interfon, sunati la numar
+
+[RESTAURANT]
+# NumeRest; AdresaRest; NumeAdmin; EmailAdmin; TelefonAdmin; ParolaAdmin; AccessLevel; EsteDeschis
+Burger Heaven; Str. Victoriei nr. 10; Marian Popescu; marian@burger.ro; 0711223344; pass123; OWNER; true
+Vegan Delights; Str. Pacii nr. 5; Elena Ionescu; elena@vegan.ro; 0722334455; superSecret; MANAGER; true
+Sushi Master; Calea Mosilor nr. 44; Kenji Sato; kenji@sushi.ro; 0799887766; katana99; OWNER; true
+
+[FOOD_ITEM]
+# NumeRestaurant; NumeProdus; Calorii; Pret; Descriere; Timp; isVegan; isVegetarian; Gramaj; Spiciness; CourseType; Alergeni (separati prin virgula)
+Burger Heaven; Classic Cheeseburger; 850.0; 45.0; Chiflă, vită, cheddar; 15; false; false; 350.0; NONE; MAIN; Gluten,Lactose,Sesame
+Burger Heaven; Spicy Wings; 600.0; 35.0; Aripioare picante; 20; false; false; 300.0; EXTRA_HOT; STARTER; Mustard
+Vegan Delights; Tofu Salad; 250.0; 28.0; Salată cu tofu afumat; 10; true; true; 250.0; NONE; STARTER; Soybeans,Mustard
+Sushi Master; Nigiri Somon; 300.0; 40.0; Orez și somon crud; 15; false; false; 200.0; NONE; MAIN; Fish
+Sushi Master; Edamame; 100.0; 20.0; Fasole japoneză; 5; true; true; 150.0; NONE; STARTER; Soybeans
+Sushi Master; Spicy Tuna Roll; 450.0; 45.0; Rulou ton picant; 20; false; false; 250.0; HOT; MAIN; Fish,Sesame,Mustard
+Shaorma La Băieți; Shaorma Mare Pui; 950.0; 35.0; Pui, cartofi, sosuri, lipie; 10; false; false; 500.0; MILD; MAIN; Gluten,Eggs,Lactose
+Shaorma La Băieți; Falafel la farfurie; 600.0; 30.0; Chifteluțe năut, hummus; 12; true; true; 400.0; NONE; MAIN; Sesame,Gluten
+
+[DRINK_ITEM]
+# NumeRestaurant; NumeProdus; Calorii; Pret; Descriere; Timp; isVegan; isVegetarian; containsAlcohol; volumMl; isHot; alcoholPercentage; Alergeni
+Burger Heaven; Craft Beer IPA; 200.0; 18.0; Bere artizanală; 2; true; true; true; 500; false; 6.5; Gluten
+Burger Heaven; Cola; 150.0; 8.0; Băutură carbogazoasă; 1; true; true; false; 330; false; 0.0; NONE
+Sushi Master; Sake Tradițional; 130.0; 25.0; Vin de orez japonez; 2; true; true; true; 100; true; 15.0; Sulphites
+Sushi Master; Ceai Verde; 5.0; 12.0; Ceai matcha japonez; 3; true; true; false; 250; true; 0.0; NONE
+Shaorma La Băieți; Ayran; 80.0; 7.0; Iaurt sărat tradițional; 1; false; true; false; 300; false; 0.0; Lactose
+
+[DRIVER]
+# Nume; Vehicul; Disponibil (true/false)
+Alexandru M.; Bicicleta; true
+Mihai T.; Scuter; true
+Andreea V.; Masina; true
+Cristian P.; Scuter; false

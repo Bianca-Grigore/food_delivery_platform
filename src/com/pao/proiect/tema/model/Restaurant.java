@@ -26,6 +26,26 @@ public class Restaurant {
     }
 
     public void addProduct(MenuItem item){
-        this.menu.addItem(item);
+        this.menu.addProduct(item);
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public RestaurantAdmin getAdmin() {
+        return admin;
+    }
+
+    public boolean isOpen() {
+        return isOpen;
+    }
+
+    public Menu getMenu() {
+        return menu;
+    }
+
+    public String getName() {
+        return name;
     }
 }

@@ -34,29 +34,19 @@ import com.pao.proiect.tema.service.MenuService;
 import com.pao.proiect.tema.service.OrderService;
 import com.pao.proiect.tema.service.UserService;
 
+
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Main{
     private static final UserService user = UserService.getInstance();
     private static final OrderService order = OrderService.getInstance();
-    private static final MenuService menu = MenuService.getInstance();
 
-    public static void main(String[] args) {
-        Scanner scanner =  new Scanner(System.in);
-        boolean isOpen = true;
-        System.out.println("Welcome to the Food Delivery App!");
-        while(isOpen){
-            System.out.println("\nPlease select an option:");
-            System.out.println("1. Register User");
-            System.out.println("2. Menu");
-            System.out.println("3. Login");
-            System.out.println("0. Break");
-            System.out.println("Enter your choice: ");
-            String option = scanner.nextLine();
-        }
-
-
-
+    public static void main(String[] args) throws IOException {
 
 
     }
