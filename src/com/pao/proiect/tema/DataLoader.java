@@ -9,7 +9,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class DataLoader {
-    public static void loadData(UserService userService, RestaurantService restaurantService, OrderService orderService) throws IOException {
+    public static void loadData(UserService userService, RestaurantService restaurantService) throws IOException {
         try(BufferedReader br = new BufferedReader(new FileReader("src/com/pao/proiect/tema/date_intrare"))){
             String line;
             String category = "";

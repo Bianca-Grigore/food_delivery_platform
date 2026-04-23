@@ -25,6 +25,17 @@ public class Restaurant {
         System.out.println("Restaurant " + name + " is now closed.");
     }
 
+    @Override
+    public String toString() {
+        return "Restaurant{" +
+                "address='" + address + '\'' +
+                ", admin=" + admin +
+                ", menu=" + menu +
+                ", name='" + name + '\'' +
+                ", isOpen=" + isOpen +
+                '}';
+    }
+
     public void addProduct(MenuItem item){
         this.menu.addProduct(item);
     }
