@@ -8,6 +8,7 @@ import com.pao.proiect.tema.service.UserService;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Main {
@@ -60,7 +61,7 @@ public class Main {
                     System.out.println("Enter restaurant name:");
                     String name = scanner.nextLine().trim();
                     restaurant.findByName(name).ifPresentOrElse(r -> {
-                        r.getMenu().getItems().forEach(item -> System.out.println(item));
+                        r.getMenu().getItems().forEach(System.out::println);
                     }, () -> {
                         System.out.println("Restaurant not found: " + name);
                     });
@@ -102,12 +103,12 @@ public class Main {
                 case "15" -> {
                 }
                 case "16" -> {
+                    updateProductPrice(scanner);
+                    break;
                 }
                 case "17" -> {
                 }
                 case "18" -> {
-                }
-                case "19" -> {
                 }
 
                 case "0" -> {
@@ -133,22 +134,21 @@ public class Main {
         System.out.println("-----Cart and checkout (customer)-----");
         System.out.println("8. Add product to shopping cart");
         System.out.println("9. View shopping cart");
-        System.out.println("10. Add another delivery address");
-        System.out.println("11. Add bank card");
-        System.out.println("12. Place order");
-        System.out.println("13. Card payment processing");
+        System.out.println("10. Add bank card");
+        System.out.println("11. Place order");
+        System.out.println("12. Card payment processing");
 
         System.out.println("-----History and rating-----");
-        System.out.println("14. Order history display");
-        System.out.println("15. Rate a delivery person");
+        System.out.println("13. Order history display");
+        System.out.println("14. Rate a delivery person");
 
         System.out.println("-----Restaurant management (restaurant admins only)-----");
-        System.out.println("16. Add product to menu");
-        System.out.println("17. Update product price");
-        System.out.println("18. Remove product from menu");
+        System.out.println("15. Add product to menu");
+        System.out.println("16. Update product price");
+        System.out.println("17. Remove product from menu");
 
         System.out.println("-----Deliveries (delivery person only)-----");
-        System.out.println("19. Update order status");
+        System.out.println("18. Update order status");
 
         System.out.println("-----EXIT-----");
         System.out.println("0.Exit");
@@ -380,7 +380,7 @@ public class Main {
         restaurant.findByName(restaurantName).ifPresentOrElse(r ->{
 
             System.out.println("Menu available");
-            r.getMenu().getAvailableMenu().forEach(item -> System.out.println(item));
+            r.getMenu().getAvailableMenu().forEach(System.out::println);
             System.out.println("Enter the ID of the product");
             try{
                 int productId = Integer.parseInt(scanner.nextLine().trim());
@@ -397,5 +397,43 @@ public class Main {
                 System.out.println("Invalid product ID. Please enter a valid number.");
             }
         }, ()-> System.out.println("Restaurant not found: " + restaurantName));
+    }
+
+    public static void updateProductPrice(Scanner scanner){
+        if(userCurrent==null){
+            System.out.println("Please login to update product prices.");
+            return;
+        }
+
+        if(!userCurrent.getRole().equalsIgnoreCase("admin")){
+            System.out.println("Only restaurant admins can update product prices.");
+            return;
+        }
+
+        System.out.println("Enter restaurant name:");
+        String restaurantName = scanner.nextLine().trim();
+
+        var res = restaurant.findByName(restaurantName);
+        if(res.isEmpty()){
+            System.out.println("Restaurant not found: " + restaurantName);
+            return;
+        }
+        else{
+            System.out.println("Menu for " + restaurantName);
+            res.get().getMenu().getItems().forEach(System.out::println);
+
+            try{
+                System.out.println("Enter product ID:");
+                int productId = Integer.parseInt(scanner.nextLine().trim());
+                System.out.println("Enter new price: ");
+                double newPrice = Double.parseDouble(scanner.nextLine().trim());
+                boolean updated = res.get().getMenu().updatePrice(productId, newPrice);
+
+            }catch (NumberFormatException e){
+                System.out.println("Invalid input. Please enter valid numbers.");
+            }catch (IllegalArgumentException e){
+                System.out.println("Invalid price. Price cannot be negative.");
+            }
+        }
     }
 }

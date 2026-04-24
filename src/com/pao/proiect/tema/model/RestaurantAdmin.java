@@ -15,7 +15,7 @@ public final class RestaurantAdmin extends User {
 
     @Override
     public String getRole() {
-        return "Restaurant Admin";
+        return "admin";
     }
 
     @Override
