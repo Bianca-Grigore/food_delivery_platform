@@ -70,4 +70,8 @@ public abstract sealed class User permits Customer, DeliveryPerson, RestaurantAd
     public void setPhoneNum(String phoneNum) {
         this.phoneNum = phoneNum;
     }
+
+    public String getPassword() {
+        return password;
+    }
 }

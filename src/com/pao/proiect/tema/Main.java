@@ -34,55 +34,102 @@ public class Main{
                     registerUser(scanner);
                     break;
                 }
-                case "2":
-                case "3":
-                case "4":
-                case "5":
-                case "6":
-                case "7":
-                case "8":
-                case "9":
-                case "10":
-                case "11":
-                case "12":
-                case "13":
-                case "14":
-                case "15":
-                case "16":
-                case "17":
-                case "18":
-                case "19":
 
-                case "20":
+                case "2"->{
+                    login(scanner);
+                    break;
+                }
+
+                case "3"->{
+                    logout();
+                    break;
+                }
+
+                case "4"->{
+                    System.out.println("Restaurant display");
+                    for(int i=0; i<restaurant.getAll().size(); i++){
+                        System.out.println((i+1) + ". " + restaurant.getAll().get(i));
+                    }
+                    System.out.println("-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+                    break;
+                }
+
+                case "5"->{
+                    System.out.println("Menu display for a restaurant");
+                    System.out.println("Enter restaurant name:");
+                    String name = scanner.nextLine().trim();
+                    restaurant.findByName(name).ifPresentOrElse(r -> {
+                        r.getMenu().getItems().forEach(item -> System.out.println(item));
+                    }, () -> {
+                        System.out.println("Restaurant not found: " + name);
+                    });
+                    break;
+                }
+
+                case "6"-> {
+                    System.out.println("Search for a specific product");
+                    System.out.println("Enter product name:");
+                    String name = scanner.nextLine().trim().toLowerCase();
+                    specificProduct(name);
+                    break;
+                }
+
+                case "7"->{}
+                case "8"->{}
+                case "9"->{}
+                case "10"->{}
+                case "11"->{}
+                case "12"->{}
+                case "13"->{}
+                case "14"->{}
+                case "15"->{}
+                case "16"->{}
+                case "17"->{}
+                case "18"->{}
+                case "19"->{}
+
+                case "0"-> {
                     active = false;
                     break;
-
+                }
             }
-
-
         }
     }
     private static void interactiveMenu(){
-        System.out.println("1.Register");
-        System.out.println("2.Login");
-        System.out.println("3.Restaurant display");
-        System.out.println("4.Menu display for a restaurant");
-        System.out.println("5.Menu filtering");
-        System.out.println("6.Add product");
-        System.out.println("7.Place order");
-        System.out.println("8.Add card");
-        System.out.println("9.Card payment processing");
-        System.out.println("10.Order history display");
-        System.out.println("11.Add product in shopping cart");
-        System.out.println("12.Logout");
-        System.out.println("13.Rate a delivery person");
-        System.out.println("14.View shopping cart");
-        System.out.println("15.Update product price (restaurant admin only)");
-        System.out.println("16.Update order status (delivery person only)");
-        System.out.println("17.Search for a specific product");
-        System.out.println("18.Add another delivery address");
-        System.out.println("19.Remove product from menu");
-        System.out.println("20.Exit");
+        System.out.println("-----Authentication and account-----");
+        System.out.println("1. Register");
+        System.out.println("2. Login");
+        System.out.println("3. Logout");
+
+        System.out.println("-----Menu and exploring-----");
+        System.out.println("4. Restaurant display");
+        System.out.println("5. Menu display for a restaurant");
+        System.out.println("6. Search for a specific product");
+        System.out.println("7. Menu filtering");
+
+        System.out.println("-----Cart and checkout (customer)-----");
+        System.out.println("8. Add product to shopping cart");
+        System.out.println("9. View shopping cart");
+        System.out.println("10. Add another delivery address");
+        System.out.println("11. Add banck card");
+        System.out.println("12. Place order");
+        System.out.println("13. Card payment processing");
+
+        System.out.println("-----History and rating-----");
+        System.out.println("14. Order history display");
+        System.out.println("15. Rate a delivery person");
+
+        System.out.println("-----Restaurant management (restaurant admins only)-----");
+        System.out.println("16. Add product to menu");
+        System.out.println("17. Update product price");
+        System.out.println("18. Remove product from menu");
+
+        System.out.println("-----Deliveries (delivery person only)-----");
+        System.out.println("19. Update order status");
+
+        System.out.println("-----EXIT-----");
+        System.out.println("0.Exit");
+        System.out.println("-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
     }
 
     private static void registerUser(Scanner scanner){
@@ -143,5 +190,53 @@ public class Main{
             }
         }
     }
+
+    private static void login(Scanner scanner){
+        System.out.println("-----Login-----");
+        if(userCurrent != null){
+            System.out.println("Already logged in as " + userCurrent.getName() + ". Please logout first.");
+            return;
+        }
+        System.out.println("Enter email:");
+        String email = scanner.nextLine().trim();
+        System.out.println("Enter password:");
+        String password = scanner.nextLine().trim();
+        User userFromEmail = user.getUserIdexByEmail().get(email);
+        if(userFromEmail != null && userFromEmail.getPassword().equals(password)){
+            userCurrent = userFromEmail;
+            System.out.println("Login successful! Welcome, " + userCurrent.getName() + "!");
+        }
+        else{
+            System.out.println("Invalid email or password. Login failed.");
+        }
+    }
+
+    private static void logout(){
+        System.out.println("-----Logout-----");
+        if(userCurrent != null){
+            userCurrent = null;
+            System.out.println("Logout successful!");
+        }
+        else {
+            System.out.println("No user is currently logged in.");
+        }
+    }
+
+    private static void specificProduct(String product){
+        boolean found = false;
+        for(Restaurant r : restaurant.getAll()){
+            for(MenuItem item : r.getMenu().getItems()){
+                if(item.getName().toLowerCase().contains(product)){
+                    System.out.println("Restaurant: " + r.getName() + " - " + item);
+                    found = true;
+                }
+            }
+        }
+        if(!found){
+            System.out.println("No product found with name containing: " + product);
+        }
+    }
+
+
 
 }

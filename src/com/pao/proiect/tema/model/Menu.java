@@ -36,6 +36,13 @@ public class Menu {
         }
     }
 
+    @Override
+    public String toString() {
+        return "Menu{" +
+                "items= " + items +
+                '}';
+    }
+
     public Optional<MenuItem> findById(int id){
         return items.stream().filter(item -> item.getId() == id).findFirst();
     }
