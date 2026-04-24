@@ -1,5 +1,6 @@
 package com.pao.proiect.tema;
 
+import com.pao.proiect.tema.exception.InvalidOrderStatusException;
 import com.pao.proiect.tema.model.*;
 import com.pao.proiect.tema.service.RestaurantService;
 import com.pao.proiect.tema.service.OrderService;
@@ -109,6 +110,8 @@ public class Main {
                 case "17" -> {
                 }
                 case "18" -> {
+                    updateOrderStatus(scanner);
+                    break;
                 }
 
                 case "0" -> {
@@ -399,13 +402,9 @@ public class Main {
         }, ()-> System.out.println("Restaurant not found: " + restaurantName));
     }
 
-    public static void updateProductPrice(Scanner scanner){
-        if(userCurrent==null){
-            System.out.println("Please login to update product prices.");
-            return;
-        }
+    private static void updateProductPrice(Scanner scanner){
 
-        if(!userCurrent.getRole().equalsIgnoreCase("admin")){
+        if(!(userCurrent instanceof RestaurantAdmin)){
             System.out.println("Only restaurant admins can update product prices.");
             return;
         }
@@ -436,4 +435,49 @@ public class Main {
             }
         }
     }
+
+    private static void updateOrderStatus(Scanner scanner){
+        System.out.println("Update order status");
+        if(!(userCurrent instanceof DeliveryPerson)){
+            System.out.println("Please login to update order status.");
+            return;
+        }
+
+        boolean activeOrders = false;
+        List<Order> orderes = new ArrayList<>();
+
+        for(Order o : order.getAllOrders()){
+            if(o.getStatus() == OrderStatus.PREPARING || o.getStatus() == OrderStatus.READY_FOR_PICKUP){
+                System.out.println(o);
+                orderes.add(o);
+                activeOrders = true;
+            }
+        }
+
+        if(!activeOrders){
+            System.out.println("No active orders to update.");
+            return;
+        }
+        try{
+            System.out.println("Enter order ID to update:");
+            int orderId = Integer.parseInt(scanner.nextLine().trim());
+            orderes.stream().filter(o -> o.getId() == orderId).findFirst().ifPresentOrElse(
+                    ord ->{
+                        try{
+                            if(ord.getStatus() == OrderStatus.PREPARING){
+                                ord.assignDriver((DeliveryPerson) userCurrent);
+                            }else{
+                                if(ord.getStatus() == OrderStatus.READY_FOR_PICKUP){
+                                    ord.markDelivered();
+                                }
+                            }
+                        }catch(InvalidOrderStatusException e){
+                            System.out.println("Cannot update order status: " + e.getMessage());
+                        }
+                    }, () -> System.out.println("Order with ID " + orderId + " not found among active orders."));
+        }catch (NumberFormatException e){
+            System.out.println("Invalid order ID. Please enter a valid number.");
+        }
+    }
+
 }
