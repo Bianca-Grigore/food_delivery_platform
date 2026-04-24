@@ -106,6 +106,10 @@ public class Menu {
         return items.stream().filter(item -> !item.getAllergens().contains(allergen)).collect(Collectors.toList());
     }
 
+    public List<MenuItem> getSafeMenuForManyAllergens(List<Allergen> allergens){
+        return items.stream().filter(items -> Collections.disjoint(items.getAllergens(), allergens)).collect(Collectors.toList());
+    }
+
     public List<DrinkItem> getDrinks(){
         return items.stream().filter(item -> item instanceof DrinkItem).map(item -> (DrinkItem) item).collect(Collectors.toList());
     }

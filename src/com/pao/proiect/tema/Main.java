@@ -74,8 +74,16 @@ public class Main{
                     break;
                 }
 
-                case "7"->{}
-                case "8"->{}
+                case "7"->{
+                    System.out.println("Menu filtering");
+                    filterMenu(scanner);
+                    break;
+                }
+
+                case "8"->{
+
+                }
+
                 case "9"->{}
                 case "10"->{}
                 case "11"->{}
@@ -237,6 +245,87 @@ public class Main{
         }
     }
 
+    private static void filterMenu(Scanner scanner) {
+        System.out.println("Choose a restaurant for menu filtering. Enter for all.");
+        String res = scanner.nextLine().trim();
+        System.out.println("Choose filter criteria:");
+        System.out.println("1. Only vegan");
+        System.out.println("2. Only vegetarian");
+        System.out.println("3. Price less than or equal to");
+        System.out.println("4. Safe menu items for allergies");
+        String choice = scanner.nextLine().trim();
+        boolean found = false;
 
+        switch (choice) {
+            case "1" -> {
+                System.out.println("Vegan menu items:");
+                for(Restaurant r : restaurant.getAll()){
+                    if(!res.isEmpty() && !r.getName().equalsIgnoreCase(res)){
+                        continue;
+                    }
+                    var vegan = r.getMenu().getVeganMenu();
+                    if(!vegan.isEmpty()){
+                        System.out.println("Restaurant: " + r.getName());
+                        vegan.forEach(item -> System.out.println(" - " + item));
+                        found = true;
+                    }
+                }
+            }
+
+            case "2" ->{
+                System.out.println("Vegetarian menu items:");
+                for(Restaurant r : restaurant.getAll()){
+                    if(!res.isEmpty() && !r.getName().equalsIgnoreCase(res)){
+                        continue;
+                    }
+                    var vegetarian = r.getMenu().getVegetarianMenu();
+                    if(!vegetarian.isEmpty()){
+                        System.out.println("Restaurant: " + r.getName());
+                        vegetarian.forEach(item -> System.out.println(" - " + item));
+                        found = true;
+                    }
+                }
+            }
+
+            case "3" ->{
+                System.out.println("Enter maximum price:");
+                String price = scanner.nextLine().trim();
+                try{
+                    double maxPrice = Double.parseDouble(price);
+                    System.out.println("Menu items with price less than or equal to " + maxPrice + ":");
+                    for(Restaurant r : restaurant.getAll()){
+                        if(!res.isEmpty() && !r.getName().equalsIgnoreCase(res)){
+                            continue;
+                        }
+
+                        for(MenuItem item : r.getMenu().getItems()){
+                            if(item.getPrice() <= maxPrice){
+                                System.out.println("Restaurant: " + r.getName() + " - " + item);
+                                found = true;
+                            }
+                        }
+                    }
+                }catch(NumberFormatException e){
+                    System.out.println("Invalid price input. Please enter a valid number.");
+                    return;
+                }
+            }
+
+            case "4" ->{
+                System.out.println("Enter allergens to avoid (comma separated):");
+                String[] allergens = scanner.nextLine().trim().split(",");
+                for(Restaurant r : restaurant.getAll()){
+
+                    if(!res.isEmpty() && !r.getName().equalsIgnoreCase(res)){
+                        continue;
+                    }
+
+                    for(var a : allergens){
+
+                    }
+                }
+            }
+        }
+    }
 
 }
