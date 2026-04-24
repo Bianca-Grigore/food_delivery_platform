@@ -52,7 +52,6 @@ public class Main {
                     for (int i = 0; i < restaurant.getAll().size(); i++) {
                         System.out.println((i + 1) + ". " + restaurant.getAll().get(i));
                     }
-                    System.out.println("-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
                     break;
                 }
 
@@ -83,7 +82,9 @@ public class Main {
                 }
 
                 case "8" -> {
-
+                    System.out.println("Shopping cart");
+                    addToCart(scanner);
+                    break;
                 }
 
                 case "9" -> {
@@ -133,7 +134,7 @@ public class Main {
         System.out.println("8. Add product to shopping cart");
         System.out.println("9. View shopping cart");
         System.out.println("10. Add another delivery address");
-        System.out.println("11. Add banck card");
+        System.out.println("11. Add bank card");
         System.out.println("12. Place order");
         System.out.println("13. Card payment processing");
 
@@ -361,5 +362,40 @@ public class Main {
         if(!found){
             System.out.println("No menu items found.");
         }
+    }
+
+    private static void addToCart(Scanner scanner){
+        if(userCurrent == null){
+            System.out.println("Please login to add products to cart.");
+            return;
+        }
+        if(!(userCurrent instanceof Customer)){
+            System.out.println("Only customers can add products to cart.");
+            return;
+        }
+
+        System.out.println("Enter restaurant name:");
+        String restaurantName = scanner.nextLine().trim();
+
+        restaurant.findByName(restaurantName).ifPresentOrElse(r ->{
+
+            System.out.println("Menu available");
+            r.getMenu().getAvailableMenu().forEach(item -> System.out.println(item));
+            System.out.println("Enter the ID of the product");
+            try{
+                int productId = Integer.parseInt(scanner.nextLine().trim());
+                r.getMenu().getAvailableMenu().stream().filter(item -> item.getId() == productId)
+                        .findFirst().ifPresentOrElse(item -> {
+                            if(((Customer) userCurrent).getCart() == null || !((Customer) userCurrent).getCart().getRestaurant().getName().equals(r.getName())){
+                                ((Customer) userCurrent).setCart(new ShoppingCart((Customer) userCurrent, r));
+                            }
+                            ((Customer) userCurrent).getCart().addItem(item, 1);
+                            System.out.println("Subtotal: " + ((Customer) userCurrent).getCart().calculateSubtotal() + "RON");
+
+                        }, () -> System.out.println("Product with ID " + productId + " not found in available menu."));
+            }catch (NumberFormatException e){
+                System.out.println("Invalid product ID. Please enter a valid number.");
+            }
+        }, ()-> System.out.println("Restaurant not found: " + restaurantName));
     }
 }

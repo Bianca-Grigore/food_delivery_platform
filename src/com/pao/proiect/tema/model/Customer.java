@@ -9,6 +9,7 @@ public final class Customer extends User {
     private int points;
     private List<Order> orderHistory;
     private List<CustomerCard> cards;
+    private ShoppingCart cart;
 
     public Customer(String name, String email, String phoneNum, String password, Address address) {
         super(name, email, phoneNum, password);
@@ -16,6 +17,7 @@ public final class Customer extends User {
         this.points = 0;
         this.orderHistory = new ArrayList<>();
         this.cards = new ArrayList<>();
+        this.cart = null;
     }
 
     @Override
@@ -67,4 +69,11 @@ public final class Customer extends User {
         return Collections.unmodifiableList(cards);
     }
 
+    public ShoppingCart getCart() {
+        return cart;
+    }
+
+    public void setCart(ShoppingCart cart) {
+        this.cart = cart;
+    }
 }

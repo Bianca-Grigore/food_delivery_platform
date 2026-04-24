@@ -58,7 +58,7 @@ public abstract sealed class MenuItem implements Comparable<MenuItem> permits Fo
 
     @Override
     public String toString(){
-        return "MenuItem " + id + ", name: " + name +
+        return "MenuItem: id= " + id + ", name: " + name +
                 ", calories: " + calories + ", price: " + price +
                 ", description: " + description + ", estimated time: " +
                 estimatedTime + " minutes, vegan: " + isVegan + ", vegetarian: " + isVegetarian +
