@@ -1,19 +1,19 @@
 package com.pao.proiect.tema.model;
 
 public enum Allergen {
-    Gluten,
-    Crustaceans,
-    Eggs,
-    Fish,
-    Peanuts,
-    Soybeans,
-    Lactose,
-    Nuts,
-    Celery,
-    Mustard,
-    Sesame,
-    Sulphur_dioxide,
-    Sulphites,
-    Lupin,
-    Molluscs;
+    GLUTEN,
+    CRUSTACEANS,
+    EGGS,
+    FISH,
+    PEANUTS,
+    SOYBEANS,
+    LACTOSE,
+    NUTS,
+    CELERY,
+    MUSTARD,
+    SESAME,
+    SULPHUR_DIOXIDE,
+    SULPHITES,
+    LUPIN,
+    MOLLUSCS;
 }

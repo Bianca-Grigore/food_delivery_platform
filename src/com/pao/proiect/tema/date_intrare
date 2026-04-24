@@ -23,11 +23,11 @@ Shaorma La Băieți; Falafel la farfurie; 600.0; 30.0; Chifteluțe năut, hummus
 
 [DRINK_ITEM]
 # NumeRestaurant; NumeProdus; Calorii; Pret; Descriere; Timp; isVegan; isVegetarian; containsAlcohol; volumMl; isHot; alcoholPercentage; Alergeni
-Burger Heaven; Craft Beer IPA; 200.0; 18.0; Bere artizanală; 2; true; true; true; 500; false; 6.5; Gluten
+Burger Heaven; Craft Beer IPA; 200.0; 18.0; Bere artizanală; 2; true; true; true; 500; false; 6.5; GLUTEN
 Burger Heaven; Cola; 150.0; 8.0; Băutură carbogazoasă; 1; true; true; false; 330; false; 0.0; NONE
-Sushi Master; Sake Tradițional; 130.0; 25.0; Vin de orez japonez; 2; true; true; true; 100; true; 15.0; Sulphites
+Sushi Master; Sake Tradițional; 130.0; 25.0; Vin de orez japonez; 2; true; true; true; 100; true; 15.0; SULPHITES
 Sushi Master; Ceai Verde; 5.0; 12.0; Ceai matcha japonez; 3; true; true; false; 250; true; 0.0; NONE
-Shaorma La Băieți; Ayran; 80.0; 7.0; Iaurt sărat tradițional; 1; false; true; false; 300; false; 0.0; Lactose
+Shaorma La Băieți; Ayran; 80.0; 7.0; Iaurt sărat tradițional; 1; false; true; false; 300; false; 0.0; LACTOSE
 
 [DRIVER]
 # Nume; Email; Telefon; Parola; TipVehicul; Disponibil

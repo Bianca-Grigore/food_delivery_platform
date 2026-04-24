@@ -36,11 +36,11 @@ public abstract sealed class MenuItem implements Comparable<MenuItem> permits Fo
         if(allergen == null)
             return false;
 
-        if(this.isVegan && (allergen == Allergen.Lactose || allergen == Allergen.Eggs || allergen == Allergen.Fish || allergen == Allergen.Crustaceans || allergen == Allergen.Molluscs)){
+        if(this.isVegan && (allergen == Allergen.LACTOSE || allergen == Allergen.EGGS || allergen == Allergen.FISH || allergen == Allergen.CRUSTACEANS || allergen == Allergen.MOLLUSCS)){
             throw new InvalidAllergenException("Adding a non-vegan allergen to a vegan menu item.");
         }
 
-        if(this.isVegetarian && (allergen == Allergen.Fish || allergen == Allergen.Crustaceans || allergen == Allergen.Molluscs)){
+        if(this.isVegetarian && (allergen == Allergen.FISH || allergen == Allergen.CRUSTACEANS || allergen == Allergen.MOLLUSCS)){
             throw new InvalidAllergenException("Adding a non-vegetarian allergen to a vegetarian menu item.");
         }
         this.allergens.add(allergen);
