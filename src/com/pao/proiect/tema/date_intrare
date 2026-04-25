@@ -9,6 +9,7 @@ Alexandru Vasile; alex@mail.com; 0755112233; secret99; Timisoara; Aviatorilor; 8
 Burger Heaven; Str. Victoriei nr. 10; Marian Popescu; marian@burger.ro; 0711223344; pass123; OWNER; true
 Vegan Delights; Str. Pacii nr. 5; Elena Ionescu; elena@vegan.ro; 0722334455; superSecret; MANAGER; true
 Sushi Master; Calea Mosilor nr. 44; Kenji Sato; kenji@sushi.ro; 0799887766; katana99; OWNER; true
+Shaorma La Băieți; Bd. Dristor nr 1; Giani; giani@shaorma.ro; 0788776655; boss123; OWNER; true
 
 [FOOD_ITEM]
 # NumeRestaurant; NumeProdus; Calorii; Pret; Descriere; Timp; isVegan; isVegetarian; Gramaj; Spiciness; CourseType; Alergeni (separati prin virgula)
