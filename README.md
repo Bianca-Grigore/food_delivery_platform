@@ -2,7 +2,7 @@
 
 ## 1. Definirea Sistemului
 
-### Listă Acțiuni
+## Listă Acțiuni
 Sistemul permite următoarele operațiuni principale prin intermediul meniului interactiv: 
 
 1.  **Înregistrare utilizator:** Crearea de conturi noi pentru Clienți, Admini sau Livratori.
@@ -20,7 +20,7 @@ Sistemul permite următoarele operațiuni principale prin intermediul meniului i
 13. **Actualizare Status (Livrator):** Preluarea comenzilor și marcarea ca "Delivered" a celor aflate în "Preparing" sau "Ready For Pickup".
 14. **Istoric Comenzi:** Afișarea polimorfica a istoricului: clienții pot vedea propriile comenzi plasate; administratorii pot vedea comenzile primite de către restaurantul lor.
 
-### Listă Tipuri de Obiecte
+## Listă Tipuri de Obiecte
 1. User (abstract sealed) - clasă de bază care definește atributele comune (nume, email, telefon, parolă).
 2. Customer (extends User)
 3. RestaurantAdmin (extends User)
@@ -39,7 +39,7 @@ Sistemul permite următoarele operațiuni principale prin intermediul meniului i
 16. Order
 17. Enums: Allergen, AccessLevel ( OWNER, MANAGER pentru admini), CourseType (pentru tipurile de mancare), DeliveryStatus, OrderStatus, PaymentStatus, Spiciness, VehicleType.
     
-### Excepții custom
+## Excepții custom
 -DuplicateEmailException
 -EmptyCartException
 -InvalidAllergenException
@@ -47,10 +47,10 @@ Sistemul permite următoarele operațiuni principale prin intermediul meniului i
 -InvalidOrderStatusException
 -ItemUnavailableException
 
-###Services - Singleton
--OrderService (gestionarea plasării unei comenzi, procesarea plății pentru comanda respectivă, asignarea livratorului, filtrarea istoricului de comenzi pentru rapoarte specifice fiecărui tip de utilizator,  Map<Customer, List<Order>> pentru comenzi grupate după client etc.).
--RestaurantService (Adăugarea/eliminarea de restaurante, căutarea unui restaurant după nume, gestionarea produselor din meniuri (adăugare, ștergere, actualizare preț) și oferirea de metode pentru filtrarea globală a produselor.).
--UserService (gestionarea tuturor clienților, susține operații precum înregistrarea unui utilizator cu validarea unicității emailului, verificarea credențialelor pentru autentificare, returnarea utilizatorilor indexați după email (Map<String, User>), a clienților/livratorilor după nume etc.).   
+##Services - Singleton
+###-OrderService (gestionarea plasării unei comenzi, procesarea plății pentru comanda respectivă, asignarea livratorului, filtrarea istoricului de comenzi pentru rapoarte specifice fiecărui tip de utilizator,  Map<Customer, List<Order>> pentru comenzi grupate după client etc.).
+###-RestaurantService (Adăugarea/eliminarea de restaurante, căutarea unui restaurant după nume, gestionarea produselor din meniuri (adăugare, ștergere, actualizare preț) și oferirea de metode pentru filtrarea globală a produselor.).
+###-UserService (gestionarea tuturor clienților, susține operații precum înregistrarea unui utilizator cu validarea unicității emailului, verificarea credențialelor pentru autentificare, returnarea utilizatorilor indexați după email (Map<String, User>), a clienților/livratorilor după nume etc.).   
 
 
 ### 2 — Organizare 
