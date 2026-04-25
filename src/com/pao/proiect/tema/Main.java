@@ -1,5 +1,6 @@
 package com.pao.proiect.tema;
 
+import com.pao.proiect.tema.exception.DuplicateEmailException;
 import com.pao.proiect.tema.exception.InvalidAllergenException;
 import com.pao.proiect.tema.exception.InvalidOrderStatusException;
 import com.pao.proiect.tema.model.*;
@@ -110,11 +111,13 @@ public class Main {
                 }
 
                 case "13" -> {
+                    System.out.println("Update product price");
                     updateProductPrice(scanner);
                     break;
                 }
                 case "14" -> {
                     System.out.println("Remove product from menu");
+                    removeProductFromMenu(scanner);
                     break;
                 }
                 case "15" -> {
@@ -178,6 +181,8 @@ public class Main {
         String phoneNum = scanner.nextLine().trim();
         System.out.println("Enter password:");
         String password = scanner.nextLine().trim();
+        User newUser = null;
+        try{
         switch (choice) {
             case "1" -> {
                 System.out.println("Enter address: ");
@@ -191,34 +196,42 @@ public class Main {
                 String postal = scanner.nextLine().trim();
                 System.out.println("Details:");
                 String details = scanner.nextLine().trim();
-                user.registerUser(new Customer(name, email, phoneNum, password, new Address(city, street, building, postal, details)));
-                System.out.println("Customer registered successfully!");
+                newUser = new Customer(name, email, phoneNum, password, new Address(city, street, building, postal, details));
+
             }
+
             case "2" -> {
                 System.out.println("Enter restaurant name:");
                 String restaurant = scanner.nextLine().trim();
                 System.out.println("Enter access level (OWNER, MANAGER)");
                 String access = scanner.nextLine().trim();
-                try {
-                    AccessLevel accessLevel = AccessLevel.valueOf(access.toUpperCase());
-                    user.registerUser(new RestaurantAdmin(name, email, phoneNum, password, restaurant, accessLevel));
-                    System.out.println("Restaurant admin registered successfully!");
-                } catch (IllegalArgumentException e) {
-                    System.out.println("Invalid access level. Registration failed.");
-                }
+
+                AccessLevel accessLevel = AccessLevel.valueOf(access.toUpperCase());
+                newUser = new RestaurantAdmin(name, email, phoneNum, password, restaurant, accessLevel);
             }
 
             case "3" -> {
                 System.out.println("Enter vehicle type (BICYCLE, SCOOTER, MOTORCYCLE, CAR): ");
                 String vehicle = scanner.nextLine().trim();
-                try {
-                    VehicleType vehicleType = VehicleType.valueOf(vehicle.toUpperCase());
-                    user.registerUser(new DeliveryPerson(name, email, phoneNum, password, vehicleType, true));
-                    System.out.println("Delivery person registered successfully!");
-                } catch (IllegalArgumentException e) {
-                    System.out.println("Invalid vehicle type. Registration failed.");
-                }
+
+                VehicleType vehicleType = VehicleType.valueOf(vehicle.toUpperCase());
+                newUser = new DeliveryPerson(name, email, phoneNum, password, vehicleType, true);
             }
+
+            default -> {
+                System.out.println("Invalid account type choice. Registration failed.");
+            }
+        }
+        if(newUser != null){
+            user.registerUser(newUser);
+            System.out.println("Registration successful! You can now login with your credentials.");
+        }
+        }catch(DuplicateEmailException e){
+            System.out.println("Registration failed: " + e.getMessage());
+        }catch (IllegalArgumentException e) {
+            System.out.println("Invalid data format or Enum value.");
+        }catch (Exception e){
+            System.out.println("Unexpected errror: " + e.getMessage());
         }
     }
 
@@ -575,7 +588,32 @@ public class Main {
         }, () -> {
             System.out.println("Restaurant not found: " + restaurantName + ". Product not added to menu.");
         });
-
     }
 
+    private static void removeProductFromMenu(Scanner scanner){
+        if(!(userCurrent instanceof RestaurantAdmin)){
+            System.out.println("Only restaurant admins can remove products.");
+            return;
+        }
+        RestaurantAdmin restaurantAdmin = (RestaurantAdmin) userCurrent;
+        int id;
+        try {
+            System.out.println("Enter the ID of the product to remove.");
+            id = Integer.parseInt(scanner.nextLine().trim());
+        }catch(NumberFormatException e){
+            System.out.println("Invalid product ID. Please enter a valid number.");
+            return;
+        }
+        restaurant.findByName(restaurantAdmin.getRestaurantName()).ifPresentOrElse(r -> {
+            boolean remove = r.getMenu().removeItem(id);
+            if(!remove){
+                System.out.println("Product with ID " + id + " not found in menu. No product removed.");
+            }
+            else{
+                System.out.println("Product removed successfully!");
+            }
+        }, () ->{
+                System.out.println("Restaurant not found: " + restaurantAdmin.getRestaurantName() + ". No product removed.");
+            });
+    }
 }
