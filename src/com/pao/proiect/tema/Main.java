@@ -1,5 +1,6 @@
 package com.pao.proiect.tema;
 
+import com.pao.proiect.tema.exception.InvalidAllergenException;
 import com.pao.proiect.tema.exception.InvalidOrderStatusException;
 import com.pao.proiect.tema.model.*;
 import com.pao.proiect.tema.service.RestaurantService;
@@ -507,6 +508,7 @@ public class Main {
             System.out.println("Only restaurant admins can add products to menu.");
             return;
         }
+        var restaurantAdmin = (RestaurantAdmin) userCurrent;
         System.out.println("Choose 1 for adding a food item, choose 2 for a drink item.");
         String type = scanner.nextLine().trim();
 
@@ -514,8 +516,65 @@ public class Main {
         String name = scanner.nextLine().trim();
         System.out.println("Enter product price: ");
         double price = Double.parseDouble(scanner.nextLine().trim());
-        System.out.println("Enter product calories: ");
+        System.out.println("Is the product vegan? (true/false)");
+        boolean isVegan = Boolean.parseBoolean(scanner.nextLine().trim());
+        System.out.println("Is the product vegetarian? (true/false)");
+        boolean isVegetarian = Boolean.parseBoolean(scanner.nextLine().trim());
+        MenuItem newItem = null;
+        switch(type){
+            case "1" -> {
+                System.out.println("You are adding a new food item.");
+                System.out.println("Enter weight grams: ");
+                double weight = Double.parseDouble(scanner.nextLine().trim());
+                System.out.println("Enter spiciness level (NONE, MILD, MEDIUM, HOT, EXTRA_HOT");
+                Spiciness spiciness = Spiciness.valueOf(scanner.nextLine().trim().toUpperCase());
+                System.out.println("Enter course type (STARTER, MAIN, SIDE_DISH, DESSERT");
+                CourseType courseType = CourseType.valueOf(scanner.nextLine().trim().toUpperCase());
 
+                newItem = new FoodItem(name, price, isVegan, isVegetarian, weight, spiciness, courseType);
+            }
+            case "2" -> {
+                System.out.println("You are adding a new drink item.");
+                System.out.println("Is the drink alcoholic? (true/false)");
+                boolean containsAlcohol = Boolean.parseBoolean(scanner.nextLine().trim());
+                System.out.println("Enter volume in ML: ");
+                int volume = Integer.parseInt(scanner.nextLine().trim());
+                System.out.println("Is this drink hot (true/false)");
+                boolean isHot = Boolean.parseBoolean(scanner.nextLine().trim());
+                System.out.println("If the drink contains alcohol, enter alcohol percentage. Otherwise, enter 0.");
+                double alcoholPercentage = Double.parseDouble(scanner.nextLine().trim());
+                newItem = new DrinkItem(name, price, isVegan, isVegetarian, containsAlcohol, volume, isHot, alcoholPercentage);
+            }
+            default -> {
+                System.out.println("Invalid product type choice. Product not added.");
+                return;
+            }
+        }
+
+        System.out.println("Adding allergens ('done' for exit)");
+        while (true) {
+            String command = scanner.nextLine().trim().toLowerCase();
+            if (command.equals("done")) break;
+            try {
+                Allergen allergen = Allergen.valueOf(command.toUpperCase());
+                newItem.addAllergen(allergen);
+                System.out.println("Allergen " + allergen + " added.");
+            } catch (IllegalArgumentException e) {
+                System.out.println("Invalid allergen. Please enter a valid allergen or 'done' to finish.");
+            } catch (InvalidAllergenException e) {
+                System.out.println("Error: " + e.getMessage());
+            }
+
+        }
+
+        var restaurantName = restaurantAdmin.getRestaurantName();
+        MenuItem finalNewItem = newItem;
+        restaurant.findByName(restaurantName).ifPresentOrElse(r -> {
+            r.addProduct(finalNewItem);
+            System.out.println("Product added to menu successfully!");
+        }, () -> {
+            System.out.println("Restaurant not found: " + restaurantName + ". Product not added to menu.");
+        });
 
     }
 

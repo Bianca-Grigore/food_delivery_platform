@@ -36,7 +36,7 @@ public abstract sealed class MenuItem implements Comparable<MenuItem> permits Fo
         this(name, 0.0, price, "No description available", 0, isVegan, isVegetarian);
     }
 
-    public boolean addAlergen(Allergen allergen){
+    public boolean addAllergen(Allergen allergen){
         if(allergen == null)
             return false;
 
