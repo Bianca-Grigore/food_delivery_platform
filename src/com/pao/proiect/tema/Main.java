@@ -90,26 +90,33 @@ public class Main {
                 }
 
                 case "9" -> {
+                    System.out.println("View shopping cart");
+                    viewShoppingCart();
+                    break;
                 }
                 case "10" -> {
+                    System.out.println("Place order");
+                    break;
                 }
                 case "11" -> {
+                    System.out.println("Order history display");
+                    break;
                 }
                 case "12" -> {
+                    System.out.println("Add product to menu");
+                    addProductToMenu(scanner);
+                    break;
                 }
+
                 case "13" -> {
-                }
-                case "14" -> {
-                }
-                case "15" -> {
-                }
-                case "16" -> {
                     updateProductPrice(scanner);
                     break;
                 }
-                case "17" -> {
+                case "14" -> {
+                    System.out.println("Remove product from menu");
+                    break;
                 }
-                case "18" -> {
+                case "15" -> {
                     updateOrderStatus(scanner);
                     break;
                 }
@@ -137,21 +144,18 @@ public class Main {
         System.out.println("-----Cart and checkout (customer)-----");
         System.out.println("8. Add product to shopping cart");
         System.out.println("9. View shopping cart");
-        System.out.println("10. Add bank card");
-        System.out.println("11. Place order");
-        System.out.println("12. Card payment processing");
+        System.out.println("10. Place order");
 
-        System.out.println("-----History and rating-----");
-        System.out.println("13. Order history display");
-        System.out.println("14. Rate a delivery person");
+        System.out.println("-----History-----");
+        System.out.println("11. Order history display");
 
         System.out.println("-----Restaurant management (restaurant admins only)-----");
-        System.out.println("15. Add product to menu");
-        System.out.println("16. Update product price");
-        System.out.println("17. Remove product from menu");
+        System.out.println("12. Add product to menu");
+        System.out.println("13. Update product price");
+        System.out.println("14. Remove product from menu");
 
         System.out.println("-----Deliveries (delivery person only)-----");
-        System.out.println("18. Update order status");
+        System.out.println("15. Update order status");
 
         System.out.println("-----EXIT-----");
         System.out.println("0.Exit");
@@ -478,6 +482,41 @@ public class Main {
         }catch (NumberFormatException e){
             System.out.println("Invalid order ID. Please enter a valid number.");
         }
+    }
+
+    private static void viewShoppingCart(){
+        if(!(userCurrent instanceof Customer)){
+            System.out.println("Only customers can have a shopping cart");
+            return;
+        }
+        var customer = (Customer) userCurrent;
+
+        if(customer.getCart() == null || customer.getCart().getItems().isEmpty()){
+            System.out.println("Your shopping cart is empty.");
+            return;
+        }
+
+        customer.getCart().getItems().forEach((item, quantity) -> {
+            System.out.println(item.getName() + " - " + quantity);
+        });
+        System.out.println("Subtotal: " + customer.getCart().calculateSubtotal() + "RON");
+    }
+
+    private static void addProductToMenu(Scanner scanner){
+        if(!(userCurrent instanceof RestaurantAdmin)){
+            System.out.println("Only restaurant admins can add products to menu.");
+            return;
+        }
+        System.out.println("Choose 1 for adding a food item, choose 2 for a drink item.");
+        String type = scanner.nextLine().trim();
+
+        System.out.println("Enter product name: ");
+        String name = scanner.nextLine().trim();
+        System.out.println("Enter product price: ");
+        double price = Double.parseDouble(scanner.nextLine().trim());
+        System.out.println("Enter product calories: ");
+
+
     }
 
 }

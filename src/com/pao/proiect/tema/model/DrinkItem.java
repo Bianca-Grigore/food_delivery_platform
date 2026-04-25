@@ -14,6 +14,14 @@ public non-sealed class DrinkItem extends MenuItem {
        this.alcoholPercentage = containsAlcohol ? alcoholPercentage : 0.0;
     }
 
+    public DrinkItem(String name, double price, boolean isVegan, boolean isVegetarian, boolean containsAlcohol, int volumeMl,  boolean isHot, double alcoholPercentage ){
+        super(name, price, isVegan, isVegetarian);
+        this.containsAlcohol = containsAlcohol;
+        this.volumeMl = volumeMl;
+        this.isHot = isHot;
+        this.alcoholPercentage = containsAlcohol ? alcoholPercentage : 0.0;
+    }
+
     public boolean requiresId(){
         return containsAlcohol;
     }

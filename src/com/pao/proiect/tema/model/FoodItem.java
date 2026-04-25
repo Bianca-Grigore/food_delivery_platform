@@ -13,6 +13,13 @@ public non-sealed class FoodItem extends MenuItem {
         this.courseType = courseType;
     }
 
+    public FoodItem(String name, double price, boolean isVegan, boolean isVegetarian, double weightGrams, Spiciness spicinessLevel, CourseType courseType){
+        super(name, price, isVegan, isVegetarian);
+        this.weightGrams = weightGrams;
+        this.spicinessLevel = spicinessLevel;
+        this.courseType = courseType;
+    }
+
     public double getCaloriesPer100(){
         if(this.weightGrams <= 0){
             return 0;

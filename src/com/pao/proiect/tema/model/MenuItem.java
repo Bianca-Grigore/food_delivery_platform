@@ -32,6 +32,10 @@ public abstract sealed class MenuItem implements Comparable<MenuItem> permits Fo
         this.allergens = new HashSet<>();
     }
 
+    public MenuItem(String name, double price, boolean isVegan, boolean isVegetarian){
+        this(name, 0.0, price, "No description available", 0, isVegan, isVegetarian);
+    }
+
     public boolean addAlergen(Allergen allergen){
         if(allergen == null)
             return false;
