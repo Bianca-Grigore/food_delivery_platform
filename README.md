@@ -47,10 +47,10 @@ Sistemul permite următoarele operațiuni principale prin intermediul meniului i
 -InvalidOrderStatusException
 -ItemUnavailableException
 
-##Services - Singleton
-###-OrderService (gestionarea plasării unei comenzi, procesarea plății pentru comanda respectivă, asignarea livratorului, filtrarea istoricului de comenzi pentru rapoarte specifice fiecărui tip de utilizator,  Map<Customer, List<Order>> pentru comenzi grupate după client etc.).
-###-RestaurantService (Adăugarea/eliminarea de restaurante, căutarea unui restaurant după nume, gestionarea produselor din meniuri (adăugare, ștergere, actualizare preț) și oferirea de metode pentru filtrarea globală a produselor.).
-###-UserService (gestionarea tuturor clienților, susține operații precum înregistrarea unui utilizator cu validarea unicității emailului, verificarea credențialelor pentru autentificare, returnarea utilizatorilor indexați după email (Map<String, User>), a clienților/livratorilor după nume etc.).   
+## Services - Singleton
+### -OrderService (gestionarea plasării unei comenzi, procesarea plății pentru comanda respectivă, asignarea livratorului, filtrarea istoricului de comenzi pentru rapoarte specifice fiecărui tip de utilizator,  Map<Customer, List<Order>> pentru comenzi grupate după client etc.).
+### -RestaurantService (Adăugarea/eliminarea de restaurante, căutarea unui restaurant după nume, gestionarea produselor din meniuri (adăugare, ștergere, actualizare preț) și oferirea de metode pentru filtrarea globală a produselor.).
+### -UserService (gestionarea tuturor clienților, susține operații precum înregistrarea unui utilizator cu validarea unicității emailului, verificarea credențialelor pentru autentificare, returnarea utilizatorilor indexați după email (Map<String, User>), a clienților/livratorilor după nume etc.).   
 
 
 ### 2 — Organizare 
