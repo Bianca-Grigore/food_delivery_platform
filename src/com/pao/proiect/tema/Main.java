@@ -636,7 +636,7 @@ public class Main {
         }
         var subtotal = ((Customer) userCurrent).getCart().calculateSubtotal();
         double finalAmount = subtotal + 10.00;
-        System.out.println("Your order subtotal is " + cart.calculateSubtotal() + "RON. The delivery fee is 10.00 RON, making the final amount " + finalAmount + "RON.");
+        System.out.println("Your order subtotal is " + cart.calculateSubtotal() + "RON. The delivery fee is 10.00 RON, making the final amount " + finalAmount + " RON.");
 
         System.out.println("Payment method: 1) CASH 2) CARD");
         String paymentMethod = scanner.nextLine().trim();
