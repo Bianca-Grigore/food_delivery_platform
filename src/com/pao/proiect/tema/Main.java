@@ -96,14 +96,19 @@ public class Main {
                     viewShoppingCart();
                     break;
                 }
+
                 case "10" -> {
                     System.out.println("Place order");
+                    placeOrder(scanner);
                     break;
                 }
+
                 case "11" -> {
                     System.out.println("Order history display");
+                    orderHistory();
                     break;
                 }
+
                 case "12" -> {
                     System.out.println("Add product to menu");
                     addProductToMenu(scanner);
@@ -115,11 +120,13 @@ public class Main {
                     updateProductPrice(scanner);
                     break;
                 }
+
                 case "14" -> {
                     System.out.println("Remove product from menu");
                     removeProductFromMenu(scanner);
                     break;
                 }
+
                 case "15" -> {
                     updateOrderStatus(scanner);
                     break;
@@ -150,7 +157,6 @@ public class Main {
         System.out.println("9. View shopping cart");
         System.out.println("10. Place order");
 
-        System.out.println("-----History-----");
         System.out.println("11. Order history display");
 
         System.out.println("-----Restaurant management (restaurant admins only)-----");
@@ -615,5 +621,46 @@ public class Main {
         }, () ->{
                 System.out.println("Restaurant not found: " + restaurantAdmin.getRestaurantName() + ". No product removed.");
             });
+    }
+
+    private static void placeOrder(Scanner scanner){
+        if(!(userCurrent instanceof Customer)){
+            System.out.println("Only customers can place orders.");
+            return;
+        }
+        System.out.println("Payment method: 1) CASH 2) CARD");
+        String paymentMethod = scanner.nextLine().trim();
+        Payment payment;
+        if(paymentMethod.equals("1")){
+            System.out.println("You have chosen the cash payment option.");
+            System.out.println("");
+
+        }
+
+
+    }
+
+    private static void orderHistory() {
+        if (userCurrent == null) {
+            System.out.println("Please login to view order history.");
+            return;
+        }
+        List<Order> orders = new ArrayList<>();
+        if(userCurrent instanceof Customer){
+            orders = order.getOrderByCustomer((Customer) userCurrent);
+        }else
+            if(userCurrent instanceof RestaurantAdmin){
+                orders = order.getOrdersByRestaurants(((RestaurantAdmin) userCurrent).getRestaurantName());
+        }
+
+            if(orders.isEmpty()){
+                System.out.println("No orders found in history.");
+            }else{
+                System.out.println("----Order history----");
+                for(Order o : orders){
+                    System.out.println(o);
+                    o.getItems().forEach((item, quantity) -> System.out.println(" - " +item.getName() + " quantity= " + quantity));
+                }
+            }
     }
 }

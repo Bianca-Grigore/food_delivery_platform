@@ -38,7 +38,7 @@ public class OrderService {
     public void assignDriver(int orderId, DeliveryPerson driver){
         Order order = findOrderById(orderId).orElseThrow(() -> new IllegalArgumentException("Order with id " + orderId + " not found."));
         order.assignDriver(driver);
-        System.out.println("Driver " + driver.getName() + " assigned to order id:); " + orderId);
+        System.out.println("Driver " + driver.getName() + " assigned to order id: " + orderId);
     }
 
     public void deliveryOrder(int orderId){
@@ -61,6 +61,10 @@ public class OrderService {
 
     public double calculateTotal(){
         return orders.stream().filter(o -> o.getStatus() == OrderStatus.DELIVERED).mapToDouble(Order::getTotal).sum();
+    }
+
+    public List<Order> getOrdersByRestaurants(String restaurantName){
+        return orders.stream().filter(o -> o.getRestaurant().getName().equalsIgnoreCase(restaurantName)).toList();
     }
 
     public Map<Customer, List<Order>> getOrdersGroupedByCustomer(){

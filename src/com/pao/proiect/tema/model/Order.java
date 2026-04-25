@@ -133,4 +133,20 @@ public class Order {
     public OrderStatus getStatus() {
         return status;
     }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public Restaurant getRestaurant() {
+        return restaurant;
+    }
+
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
+    }
+
+    public Map<MenuItem, Integer> getItems() {
+        return items;
+    }
 }
