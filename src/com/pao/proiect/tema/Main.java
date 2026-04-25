@@ -1,6 +1,7 @@
 package com.pao.proiect.tema;
 
 import com.pao.proiect.tema.exception.DuplicateEmailException;
+import com.pao.proiect.tema.exception.EmptyCartException;
 import com.pao.proiect.tema.exception.InvalidAllergenException;
 import com.pao.proiect.tema.exception.InvalidOrderStatusException;
 import com.pao.proiect.tema.model.*;
@@ -628,16 +629,74 @@ public class Main {
             System.out.println("Only customers can place orders.");
             return;
         }
+        ShoppingCart cart = ((Customer) userCurrent).getCart();
+        if(cart.getItems().isEmpty()){
+            System.out.println("Your shopping cart is empty. Please add items to your cart before placing an order.");
+            return;
+        }
+        var subtotal = ((Customer) userCurrent).getCart().calculateSubtotal();
+        double finalAmount = subtotal + 10.00;
+        System.out.println("Your order subtotal is " + cart.calculateSubtotal() + "RON. The delivery fee is 10.00 RON, making the final amount " + finalAmount + "RON.");
+
         System.out.println("Payment method: 1) CASH 2) CARD");
         String paymentMethod = scanner.nextLine().trim();
-        Payment payment;
+        System.out.println("You can write below a note for the delivery person.");
+        String note = scanner.nextLine().trim();
+        Payment payment = null;
+
+
         if(paymentMethod.equals("1")){
-            System.out.println("You have chosen the cash payment option.");
-            System.out.println("");
+            System.out.println("You have chosen the cash payment option. Your subtotal is " + subtotal);
+            System.out.println("Do you have the exact amount of money?(true/false)");
+            boolean exactAmount = Boolean.parseBoolean(scanner.nextLine().trim());
+
+            if(!exactAmount){
+                System.out.println("What is the amount of money you will have?");
+                try {
+                    double money = Double.parseDouble(scanner.nextLine().trim());
+                    if(money >= finalAmount) {
+                        payment = new CashPayment(finalAmount, true, money, note);
+                    }
+                    else{
+                        System.out.println("You do not have enough money to pay for this order. Order not placed.");
+                        return;
+                    }
+                }catch (NumberFormatException e){
+                    System.out.println("Invalid amount format");
+                    return;
+                }
+            }
+            else{
+                payment = new CashPayment(finalAmount, false,finalAmount , note);
+            }
+        }
+        else
+            if(paymentMethod.equals("2")){
+                System.out.println("You have chosen the card payment option. Your subtotal is " + subtotal);
+                System.out.println("Enter card holder name:");
+                String holderName = scanner.nextLine().trim();
+                System.out.println( "Enter card number (16 digits):");
+                String cardNumber = scanner.nextLine().trim();
+                System.out.println("Enter expiration date (MM/YY):");
+                String expirationDate = scanner.nextLine().trim();
+                System.out.println("Enter CVV (3 digits):");
+                String cvv = scanner.nextLine().trim();
+                CustomerCard card = new CustomerCard(holderName, cardNumber, expirationDate, cvv);
+                payment = new CardPayment(finalAmount, card);
 
         }
-
-
+            else{
+                System.out.println("Invalid payment method choice. Order not placed.");
+                return;
+            }
+            try{
+                Order newOrder = order.placeOrder(cart, 10.00, payment, note);
+                System.out.println("Order placed successfully! Your order ID is " + newOrder.getId() + ". Thank you for ordering with us!");
+            }catch(EmptyCartException e){
+                System.out.println("Cannot place order: " + e.getMessage());
+            }catch(Exception e){
+                System.out.println("Failed to place order: " + e.getMessage());
+            }
     }
 
     private static void orderHistory() {

@@ -60,7 +60,7 @@ public class Order {
         if(this.status != OrderStatus.PLACED){
             throw new InvalidOrderStatusException("Cannot process payment for order with status " + this.status);
         }
-        boolean succes = this.paymentMethod.processPayment(getTotal());
+        boolean succes = this.paymentMethod.processPayment();
         if(succes){
             this.status = OrderStatus.PREPARING;
             System.out.println("Payment processed for order " + id + ". Order is now being prepared.");

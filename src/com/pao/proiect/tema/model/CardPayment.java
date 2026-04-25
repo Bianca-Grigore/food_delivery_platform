@@ -54,15 +54,12 @@ public class CardPayment extends BasePayment{
     }
 
     @Override
-    public boolean processPayment(double amountProcess) {
+    public boolean processPayment() {
         try{
             validateDetails();
-            if(amountProcess < getTotalAmount()){
-                throw new InvalidDetailsException("Insufficient amount provided for this transaction.");
-            }
 
             this.status = PaymentStatus.COMPLETED;
-            System.out.println("Payment of $" + amountProcess + " processed successfully. Transaction ID: " + getTransactionID());
+            System.out.println("Payment of $" + getTotalAmount() + " processed successfully. Transaction ID: " + getTransactionID());
             return true;
 
         }catch (InvalidDetailsException e){

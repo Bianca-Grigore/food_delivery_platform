@@ -55,4 +55,6 @@ public abstract class BasePayment implements Payment {
         }
         return false;
     }
+
+    public abstract boolean processPayment();
 }

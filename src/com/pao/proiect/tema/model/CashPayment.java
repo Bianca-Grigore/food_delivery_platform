@@ -5,18 +5,18 @@ import java.util.Optional;
 
 
 public class CashPayment extends BasePayment {
-    private boolean isChange;
+    private boolean needsChange;
     private double clientAmount;
     private double deliveryChange;
     private String note;
 
-    public CashPayment(double amount, boolean isChange, double clientAmount, String note) {
+    public CashPayment(double amount, boolean needsChange, double clientAmount, String note) {
         super(amount);
-        this.isChange = isChange;
+        this.needsChange = needsChange;
         this.clientAmount = clientAmount;
         this.note = note;
 
-        if (isChange && clientAmount > amount) {
+        if (needsChange && clientAmount > amount) {
             this.deliveryChange = clientAmount - amount;
         } else {
             this.deliveryChange = 0.0;
@@ -33,11 +33,8 @@ public class CashPayment extends BasePayment {
     }
 
     @Override
-    public boolean processPayment(double amountProcess) {
+    public boolean processPayment() {
         try {
-            if (amountProcess < getTotalAmount()) {
-                throw new InvalidDetailsException("Insufficient amount provided. Required: " + getTotalAmount());
-            }
             this.status = PaymentStatus.COMPLETED;
             System.out.println("Payment successful. Transaction ID: " + getTransactionID());
             if(this.deliveryChange > 0){
@@ -55,7 +52,7 @@ public class CashPayment extends BasePayment {
     @Override
     public void setTips(double tipAmount){
         super.setTips(tipAmount);
-        if (isChange && clientAmount > getTotalAmount()) {
+        if (needsChange && clientAmount > getTotalAmount()) {
             this.deliveryChange = clientAmount - getTotalAmount();
         } else {
             this.deliveryChange = 0.0;
