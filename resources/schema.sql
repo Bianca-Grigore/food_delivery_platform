@@ -6,12 +6,28 @@ DROP TABLE IF EXISTS restaurants;
 DROP TABLE IF EXISTS users;
 
 CREATE TABLE users (
-                       id INT AUTO_INCREMENT,
+                       id BIGINT AUTO_INCREMENT,
                        name VARCHAR(100) NOT NULL,
                        email VARCHAR(100) UNIQUE NOT NULL,
                        phone_num VARCHAR(20),
                        password VARCHAR(255) NOT NULL,
                        role VARCHAR(50) NOT NULL,
+
+                       city VARCHAR(100),
+                       street VARCHAR(150),
+                       building_number VARCHAR(20),
+                       postal_code VARCHAR(20),
+                       details TEXT,
+                       points INT DEFAULT 0,
+
+                       restaurant_name VARCHAR(150),
+                       is_active BOOLEAN DEFAULT TRUE,
+                       access_level VARCHAR(50),
+
+                       vehicle_type VARCHAR(50),
+                       is_available BOOLEAN DEFAULT TRUE,
+                       rating DOUBLE DEFAULT 0.0,
+                       total_deliveries INT DEFAULT 0,
 
                        PRIMARY KEY (id)
 );
