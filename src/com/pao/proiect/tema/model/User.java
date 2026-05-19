@@ -74,4 +74,8 @@ public abstract sealed class User permits Customer, DeliveryPerson, RestaurantAd
     public String getPassword() {
         return password;
     }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }

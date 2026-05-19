@@ -15,7 +15,7 @@ public class UsersRepository implements Repository<User, Integer>{
         return DatabaseConnection.getInstance().getConnection();
     }
 
-    private User mapRow(ResultSet rs) throws SQLException{
+    private User mapRow(ResultSet rs) throws SQLException {
         String role = rs.getString("role");
         String name = rs.getString("name");
         String email = rs.getString("email");
@@ -23,7 +23,7 @@ public class UsersRepository implements Repository<User, Integer>{
         String password = rs.getString("password");
         User u;
 
-        if("CUSTOMER".equalsIgnoreCase(role)){
+        if ("CUSTOMER".equalsIgnoreCase(role)) {
             String city = rs.getString("city");
             String street = rs.getString("street");
             String bldNum = rs.getString("building_number");
@@ -34,20 +34,29 @@ public class UsersRepository implements Repository<User, Integer>{
             Customer customer = new Customer(name, email, phoneNum, password, address);
             customer.setPoints(rs.getInt("points"));
             u = customer;
-        }
-        else if("admin".equalsIgnoreCase(role)){
+        } else if ("admin".equalsIgnoreCase(role)) {
             String restaurantName = rs.getString("restaurant_name");
             String accessLevelStr = rs.getString("access_level");
 
             AccessLevel accessLevel = AccessLevel.valueOf(accessLevelStr.toUpperCase());
             RestaurantAdmin admin = new RestaurantAdmin(name, email, phoneNum, password, restaurantName, accessLevel);
-            if(!rs.getBoolean("is_active")){
+            if (!rs.getBoolean("is_active")) {
                 admin.deactivateAccount();
             }
             u = admin;
+        } else if ("Delivery".equalsIgnoreCase(role)) {
+            String vehicleType = rs.getString("vehicle_type");
+            VehicleType vType = VehicleType.valueOf(vehicleType.toUpperCase());
+            boolean isavailable = rs.getBoolean("is_available");
+            DeliveryPerson deliveryPerson = new DeliveryPerson(name, email, phoneNum, password, vType, isavailable);
+            deliveryPerson.setTotalDeliveries(rs.getInt("total_deliveries"));
+            deliveryPerson.setRating(rs.getDouble("rating"));
+            u = deliveryPerson;
+        } else{
+            throw new SQLException("Unknown role: " + role);
         }
-        else if()
-
+        u.setId(rs.getInt("id"));
+        return u;
     }
 
     @Override

@@ -60,4 +60,8 @@ public final class DeliveryPerson extends User {
     public String toString(){
         return super.toString() + " vehicle type: " + vehicleType + ", rating: " + rating + ", total deliveries: " + totalDeliveries;
     }
+
+    public void setTotalDeliveries(int totalDeliveries) {
+        this.totalDeliveries = totalDeliveries;
+    }
 }

@@ -6,7 +6,7 @@ DROP TABLE IF EXISTS restaurants;
 DROP TABLE IF EXISTS users;
 
 CREATE TABLE users (
-                       id BIGINT AUTO_INCREMENT,
+                       id INT AUTO_INCREMENT,
                        name VARCHAR(100) NOT NULL,
                        email VARCHAR(100) UNIQUE NOT NULL,
                        phone_num VARCHAR(20),
