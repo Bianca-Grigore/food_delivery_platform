@@ -154,4 +154,8 @@ public abstract sealed class MenuItem implements Comparable<MenuItem> permits Fo
     public Set<Allergen> getAllergens(){
         return allergens;
     }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }
