@@ -6,6 +6,7 @@ public class Restaurant {
     private String name;
     private String address;
     private boolean isOpen;
+    private int id;
 
     public Restaurant(String name, String address, RestaurantAdmin admin){
         this.name = name;
@@ -35,6 +36,9 @@ public class Restaurant {
                 ", isOpen=" + isOpen +
                 '}';
     }
+    public int getId() { return id; }
+
+    public void setId(int id) { this.id = id; }
 
     public void addProduct(MenuItem item){
         this.menu.addProduct(item);

@@ -157,4 +157,8 @@ public class Order {
     public double getDeliveryFee() { return deliveryFee; }
     public String getNotes() { return notes; }
     public Payment getPaymentMethod() { return paymentMethod; }
+    public void setOrderDate(LocalDateTime date) { this.orderDate = date; }
+    public void setDeliveryDate(LocalDateTime date) { this.deliveryDate = date; }
+    public void setStatus(OrderStatus status) { this.status = status; }
+    public void setDriver(DeliveryPerson driver) { this.driver = driver; }
 }
