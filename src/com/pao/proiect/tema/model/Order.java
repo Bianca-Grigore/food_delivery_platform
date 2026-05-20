@@ -21,7 +21,7 @@ public class Order {
     private double deliveryFee;
     private String notes;
     private Payment paymentMethod;
-    private static int idNumber=0;
+//    private static int idNumber=0;
 
     public Order(Customer customer, Restaurant restaurant, Map<MenuItem, Integer>items, double deliveryFee, Payment paymentMethod, String notes){
 
@@ -29,8 +29,8 @@ public class Order {
             throw new IllegalArgumentException("Order must contain at least one item.");
         }
 
-        this.id = idNumber;
-        idNumber +=1;
+        //this.id = idNumber;
+        //idNumber +=1;
         this.orderDate = LocalDateTime.now();
         this.status = OrderStatus.PLACED;
         this.customer = customer;
@@ -149,4 +149,12 @@ public class Order {
     public Map<MenuItem, Integer> getItems() {
         return items;
     }
+
+    public void setId(int id) { this.id = id; }
+    public LocalDateTime getOrderDate() { return orderDate; }
+    public LocalDateTime getDeliveryDate() { return deliveryDate; }
+    public DeliveryPerson getDriver() { return driver; }
+    public double getDeliveryFee() { return deliveryFee; }
+    public String getNotes() { return notes; }
+    public Payment getPaymentMethod() { return paymentMethod; }
 }
