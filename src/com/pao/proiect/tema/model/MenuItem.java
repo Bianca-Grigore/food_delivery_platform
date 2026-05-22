@@ -17,6 +17,7 @@ public abstract sealed class MenuItem implements Comparable<MenuItem> permits Fo
     private boolean isVegan;
     private boolean isVegetarian;
     private Set<Allergen> allergens;
+    private int menuId;
 
     public MenuItem(String name, double calories, double price, String description, int estimatedTime, boolean isVegan, boolean isVegetarian) {
         this.name = name;
@@ -157,5 +158,13 @@ public abstract sealed class MenuItem implements Comparable<MenuItem> permits Fo
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getMenuId() {
+        return menuId;
+    }
+
+    public void setMenuId(int menuId) {
+        this.menuId = menuId;
     }
 }

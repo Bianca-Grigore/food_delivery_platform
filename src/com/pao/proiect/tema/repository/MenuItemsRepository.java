@@ -78,7 +78,46 @@ public class MenuItemsRepository implements Repository<MenuItem, Integer> {
     }
     @Override
     public void save(MenuItem entity) throws SQLException {
+        String sql = "INSERT INTO menu_items (menu_id, item_type, name, calories, price, description, is_available, estimate_time, is_vegan, is_vegetarian, weight_grams, spiciness_level, course_type, contains_alcohol, alcohol_percentage, volume_ml, is_hot) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try(PreparedStatement ps = getConn().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)){
+            ps.setInt(1, entity.getMenuId());
+            ps.setString(3, entity.getName());
+            ps.setDouble(4, entity.getCalories());
+            ps.setDouble(5, entity.getPrice());
+            ps.setString(6, entity.getDescription());
+            ps.setBoolean(7, entity.isAvailable());
+            ps.setInt(8, entity.getEstimatedTime());
+            ps.setBoolean(9, entity.isVegan());
+            ps.setBoolean(10, entity.isVegetarian());
 
+            for(int i = 11; i <= 17; i++){
+                ps.setObject(i, null);
+            }
+            if(entity instanceof FoodItem food){
+                ps.setString(2, "FOOD");
+                ps.setDouble(11, food.getWeightGrams());
+                if(food.getSpicinessLevel() != null){
+                    ps.setString(12, food.getSpicinessLevel().name());
+                }
+                if(food.getCourseType() != null) {
+                    ps.setString(13, food.getCourseType().name());
+            }}
+            else
+                if(entity instanceof DrinkItem drink){
+                    ps.setString(2, "DRINK");
+                    ps.setBoolean(14, drink.isContainsAlcohol());
+                    ps.setDouble(15, drink.getAlcoholPercentage());
+                    ps.setInt(16, drink.getVolumeMl());
+                    ps.setBoolean(17, drink.isHot());
+                }
+            ps.executeUpdate();
+            try(ResultSet keys = ps.getGeneratedKeys()){
+                if(keys.next())
+                    entity.setId(keys.getInt(1));
+            }
+        }catch (IOException e){
+            throw new SQLException(e);
+        }
     }
 
     @Override
@@ -112,11 +151,54 @@ public class MenuItemsRepository implements Repository<MenuItem, Integer> {
 
     @Override
     public void update(MenuItem entity) throws SQLException {
+        String sql = "UPDATE menu_items SET menu_id= ?, item_type= ?, name= ?, calories= ?, price= ?, description= ?, is_available= ?, estimate_time= ?, is_vegan= ?, is_vegetarian= ?, weight_grams= ?, spiciness_level= ?, course_type= ?, contains_alcohol= ?, alcohol_percentage= ?, volume_ml= ?, is_hot= ? WHERE id= ?";
+        try(PreparedStatement ps = getConn().prepareStatement(sql)){
+            ps.setInt(1, entity.getMenuId());
+            ps.setString(3, entity.getName());
+            ps.setDouble(4, entity.getCalories());
+            ps.setDouble(5, entity.getPrice());
+            ps.setString(6, entity.getDescription());
+            ps.setBoolean(7, entity.isAvailable());
+            ps.setInt(8, entity.getEstimatedTime());
+            ps.setBoolean(9, entity.isVegan());
+            ps.setBoolean(10, entity.isVegetarian());
+
+            for(int i = 11; i <= 17; i++){
+                ps.setObject(i, null);
+            }
+            if(entity instanceof FoodItem food){
+                ps.setString(2, "FOOD");
+                ps.setDouble(11, food.getWeightGrams());
+                if(food.getSpicinessLevel() != null){
+                    ps.setString(12, food.getSpicinessLevel().name());
+                }
+                if(food.getCourseType() != null) {
+                    ps.setString(13, food.getCourseType().name());
+                }}
+            else
+            if(entity instanceof DrinkItem drink){
+                ps.setString(2, "DRINK");
+                ps.setBoolean(14, drink.isContainsAlcohol());
+                ps.setDouble(15, drink.getAlcoholPercentage());
+                ps.setInt(16, drink.getVolumeMl());
+                ps.setBoolean(17, drink.isHot());
+            }
+            ps.setInt(18, entity.getId());
+            ps.executeUpdate();
+        }catch (IOException e){
+            throw new SQLException(e);
+        }
 
     }
 
     @Override
-    public void delete(Integer integer) throws SQLException {
-
+    public void delete(Integer id) throws SQLException {
+        String sql = "DELETE FROM menu_items WHERE id= ?";
+        try(PreparedStatement ps = getConn().prepareStatement(sql)){
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        }catch(IOException e){
+            throw new SQLException(e);
+        }
     }
 }
