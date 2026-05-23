@@ -117,6 +117,21 @@ public class RestaurantsRepository implements Repository<Restaurant, Integer>{
         }catch(IOException e){
             throw new SQLException(e);
         }
+    }
 
+    public void printResStatistics() throws SQLException{
+        String sql = "SELECT r.name AS restaurant_name, COUNT(o.id) AS total_orders " +
+                "FROM restaurants r " +
+                "LEFT JOIN orders o ON r.id = o.restaurant_id " +
+                "GROUP BY r.id, r.name";
+        try(PreparedStatement ps = getConn().prepareStatement(sql);
+        ResultSet rs = ps.executeQuery()){
+            System.out.println("Restaurant Name | Total Orders");
+            while(rs.next()){
+                System.out.println("Restaurant: " + rs.getString("restaurant_name") + " | total orders: " + rs.getInt("total_orders"));
+            }
+        }catch(IOException e){
+            throw new SQLException(e);
+        }
     }
 }
