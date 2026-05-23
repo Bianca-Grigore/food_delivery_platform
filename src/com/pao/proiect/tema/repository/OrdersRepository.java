@@ -261,4 +261,44 @@ public class OrdersRepository implements  Repository<Order, Integer>{
             throw new SQLException(e);
         }
     }
+
+    public void printOrdersDetails(int orderId) throws SQLException{
+        String sql = "SELECT o.id, c.name AS customer_name, r.name AS restaurant_name " +
+                "FROM orders o "+
+                "JOIN users c ON o.customer_id = c.id " +
+                "JOIN restaurants r ON o.restaurant_id = r.id "+
+                "WHERE o.id = ?";
+        try(PreparedStatement ps = getConn().prepareStatement(sql)){
+            ps.setInt(1, orderId);
+            try(ResultSet rs = ps.executeQuery()){
+                if(rs.next()){
+                    System.out.println("Order " + rs.getInt("id") + " Customer " + rs.getString("customer_name") + " Restaurant name " + rs.getString("restaurant_name"));
+                }
+                else{
+                    System.out.println("No order found with id: " + orderId);
+                }
+            }
+        }catch(IOException e){
+            throw new SQLException(e);
+        }
+    }
+
+    public void printOrdersDrivers() throws SQLException{
+        String sql = "SELECT o.id AS order_id, o.status, d.name AS driver_name "+
+                "FROM orders o " +
+                "LEFT JOIN users d ON o.driver_id = d.id";
+        try(PreparedStatement ps = getConn().prepareStatement(sql)){
+            ResultSet rs = ps.executeQuery();
+            System.out.println("Deliveries status: ");
+            while(rs.next()){
+                String driver = rs.getString("driver_name");
+                if(driver == null){
+                    driver = "Waiting for driver assignment";
+                }
+                System.out.println("Order " + rs.getInt("order_id") + " Status: " + rs.getString("status") + " Driver: " + driver);
+            }
+        }catch(IOException e){
+            throw new SQLException(e);
+        }
+    }
 }
