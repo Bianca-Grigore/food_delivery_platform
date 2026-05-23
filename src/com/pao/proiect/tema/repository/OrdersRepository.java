@@ -127,7 +127,7 @@ public class OrdersRepository implements  Repository<Order, Integer>{
                         ex.printStackTrace();
                     }
                 }
-                throw new SQLException("Tranzacția a eșuat. S-a efectuat rollback.", e);
+                throw new SQLException("Transaction failed. Rollback executed succesfully", e);
             } finally {
                 if (conn != null) {
                     try {
@@ -175,7 +175,80 @@ public class OrdersRepository implements  Repository<Order, Integer>{
 
     @Override
     public void update(Order entity) throws SQLException {
+        String sqlUpdateOrder = "UPDATE orders SET customer_id= ?, restaurant_id= ?, driver_id= ?, order_date= ?, delivery_date= ?, status= ?, delivery_fee= ?, subtotal= ?, notes= ? WHERE id= ?";
+        String sqlDeleteItems = "DELETE FROM order_items WHERE order_id= ?";
+        String sqlInsertItems = "INSERT INTO order_items(order_id, menu_item_id, quantity) VALUES (?, ?, ?)";
+        Connection conn = null;
+        try{
+           conn = getConn();
+           conn.setAutoCommit(false);
+           try(PreparedStatement psUpdateOrder = conn.prepareStatement(sqlUpdateOrder)){
+               psUpdateOrder.setInt(1, entity.getCustomer().getId());
+               psUpdateOrder.setInt(2, entity.getRestaurant().getId());
 
+               if(entity.getDriver() != null){
+                   psUpdateOrder.setInt(3, entity.getDriver().getId());
+               }
+               else {
+                   psUpdateOrder.setNull(3, Types.INTEGER);
+               }
+
+               psUpdateOrder.setTimestamp(4, Timestamp.valueOf(entity.getOrderDate()));
+               if(entity.getDeliveryDate() != null){
+                   psUpdateOrder.setTimestamp(5, Timestamp.valueOf(entity.getDeliveryDate()));
+               }
+               else{
+                   psUpdateOrder.setNull(5, Types.TIMESTAMP);
+               }
+
+               psUpdateOrder.setString(6, entity.getStatus().name());
+               psUpdateOrder.setDouble(7, entity.getDeliveryFee());
+               psUpdateOrder.setDouble(8, entity.getTotal() - entity.getDeliveryFee());
+
+               if(entity.getNotes() !=null){
+                   psUpdateOrder.setString(9, entity.getNotes());
+               }
+               else{
+                   psUpdateOrder.setNull(9, Types.VARCHAR);
+               }
+               psUpdateOrder.setInt(10, entity.getId());
+               psUpdateOrder.executeUpdate();
+           }
+
+           try(PreparedStatement psDelete = conn.prepareStatement(sqlDeleteItems)){
+               psDelete.setInt(1, entity.getId());
+               psDelete.executeUpdate();
+           }
+
+           try(PreparedStatement psInsert = conn.prepareStatement(sqlInsertItems)){
+               for(Map.Entry<MenuItem, Integer> entry : entity.getItems().entrySet()){
+                   psInsert.setInt(1, entity.getId());
+                   psInsert.setInt(2, entry.getKey().getId());
+                   psInsert.setInt(3, entry.getValue());
+                   psInsert.executeUpdate();
+               }
+           }
+              conn.commit();
+        }catch(SQLException e){
+            if(conn != null){
+                try{
+                    conn.rollback();
+                }catch(SQLException ex){
+                    ex.printStackTrace();
+                }
+            }
+            throw new SQLException("Failed update. Rollback executed.", e);
+        }catch(IOException e){
+            throw new SQLException(e);
+        }finally{
+            if (conn != null) {
+                try {
+                    conn.setAutoCommit(true);
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
     }
 
     @Override
