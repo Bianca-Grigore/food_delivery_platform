@@ -20,6 +20,8 @@ public final class Customer extends User {
         this.cart = null;
     }
 
+    public Customer(){}
+
     @Override
     public String getRole(){
         return "Customer";

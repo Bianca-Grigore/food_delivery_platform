@@ -42,6 +42,8 @@ public class Order {
         this.subtotal = calculateSubtotal();
     }
 
+    public Order(){}
+
     private double calculateSubtotal(){
         double total = 0;
         for(Map.Entry<MenuItem, Integer> entry:items.entrySet()){

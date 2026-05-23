@@ -14,6 +14,10 @@ public final class DeliveryPerson extends User {
         this.totalDeliveries = 0;
     }
 
+    public DeliveryPerson(){
+        super();
+    }
+
     public void incrementDeliveries(){
         this.totalDeliveries += 1;
     }

@@ -122,7 +122,8 @@ public class UsersRepository implements Repository<User, Integer>{
     public List<User> findAll() throws SQLException {
         String sql = "SELECT * FROM users ORDER BY id";
         List<User> list = new ArrayList<>();
-        try(PreparedStatement ps = getConn().prepareStatement(sql); ResultSet rs = ps.executeQuery()){
+        try(PreparedStatement ps = getConn().prepareStatement(sql);
+            ResultSet rs = ps.executeQuery()){
             while(rs.next())
                 list.add(mapRow(rs));
         }catch (IOException e){

@@ -16,6 +16,8 @@ public class Restaurant {
         this.menu = new Menu();
     }
 
+    public Restaurant(){}
+
     public void open(){
         this.isOpen = true;
         System.out.println("Restaurant " + name + " is now open.");
