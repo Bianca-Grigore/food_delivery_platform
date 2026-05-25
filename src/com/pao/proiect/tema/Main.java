@@ -22,13 +22,13 @@ public class Main {
     private static User userCurrent = null;
 
     public static void main(String[] args) {
-        try {
-            DataLoader.loadData(user, restaurant);
-        } catch (IOException e) {
-            System.err.println("Loading data error: " + e.getMessage());
-            return;
-        }
-        System.out.println("Data loaded successfully!");
+//        try {
+//            DataLoader.loadData(user, restaurant);
+//        } catch (IOException e) {
+//            System.err.println("Loading data error: " + e.getMessage());
+//            return;
+//        }
+//        System.out.println("Data loaded successfully!");
         System.out.println("-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
 
         Scanner scanner = new Scanner(System.in);
